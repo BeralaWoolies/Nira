@@ -1,11 +1,13 @@
+import LogoHeader from "@/components/LogoHeader";
+import CenterContainer from "@/components/CenterContainer";
 import { Button } from "@/components/ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="font-bold text-7xl">Nira</h1>
+    <CenterContainer>
+      <LogoHeader />
       <p className="p-3">
         A project management software tool heavily inspired by{" "}
         <span className="text-blue-600 font-bold underline">
@@ -18,13 +20,13 @@ export default function LandingPage() {
         </Link>
       </div>
       <footer className="flex absolute bottom-3">
-        <Link href="https://github.com/BeralaWoolies/Nira">
+        <a href="https://github.com/BeralaWoolies/Nira">
           <Button variant="ghost" size="icon" className="mr-1">
             <GitHubLogoIcon className="h-7 w-7"></GitHubLogoIcon>
           </Button>
-        </Link>
+        </a>
         <p className="pt-1.5">© {new Date().getFullYear()} Clarke Tran</p>
       </footer>
-    </main>
+    </CenterContainer>
   );
 }
