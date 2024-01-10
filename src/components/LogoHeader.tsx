@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function LogoHeader() {
-  return <h1 className="font-bold text-7xl">Nira</h1>;
+  return <h1 className="text-7xl font-bold">Nira</h1>;
 }

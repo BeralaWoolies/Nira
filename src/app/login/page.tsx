@@ -12,7 +12,7 @@ export default function LoginPage() {
       <Link href="/">
         <LogoHeader />
       </Link>
-      <Card className="w-[350px] mt-7">
+      <Card className="mt-7 w-[350px]">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Login</CardTitle>
         </CardHeader>

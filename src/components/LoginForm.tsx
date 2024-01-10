@@ -18,6 +18,9 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import pb from "@/lib/pocketbase";
 import { useRouter } from "next/navigation";
 import { ClientResponseError } from "pocketbase";
+import { Separator } from "@/components/ui/separator";
+import GoogleIcon from "./icons/GoogleIcon";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -25,6 +28,7 @@ const loginFormSchema = z.object({
 });
 
 type TLoginForm = z.infer<typeof loginFormSchema>;
+type Provider = "google";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -41,7 +45,6 @@ export default function LoginForm() {
     try {
       const authData = await pb.collection("users").authWithPassword(values.email, values.password);
       console.log(authData);
-      loginForm.clearErrors();
       router.push("/dashboard");
     } catch (error) {
       console.error(error);
@@ -50,6 +53,18 @@ export default function LoginForm() {
           message: "Invalid email and/or password",
         });
       }
+    }
+  }
+
+  async function authWithProvider(provider: Provider, router: AppRouterInstance) {
+    try {
+      const authData = await pb.collection("users").authWithOAuth2({
+        provider: provider,
+      });
+      console.log(authData);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -63,7 +78,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input autoFocus {...field} />
+                <Input autoFocus {...field} type="text" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,7 +91,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,12 +100,28 @@ export default function LoginForm() {
         <Button disabled={loginForm.formState.isSubmitting} className="w-full" type="submit">
           {loginForm.formState.isSubmitting ? (
             <>
-              <ReloadIcon className="animate-spin mr-2 h-4 w-4" />
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
               <p>Logging In</p>
             </>
           ) : (
             <p>Log In</p>
           )}
+        </Button>
+        <div className="flex items-center justify-between">
+          <Separator className="w-[45%]"></Separator>
+          <p className="text-center">or</p>
+          <Separator className="w-[45%]"></Separator>
+        </div>
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={() => authWithProvider("google", router)}
+        >
+          <div className="mr-1">
+            <GoogleIcon />
+          </div>
+          Continue with Google
         </Button>
       </form>
     </Form>
