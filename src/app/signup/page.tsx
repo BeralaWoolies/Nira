@@ -3,10 +3,10 @@ import LogoHeader from "@/components/LogoHeader";
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-import LoginForm from "@/components/LoginForm";
+import SignUpForm from "@/components/SignUpForm";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <CenterContainer>
       <Link href="/">
@@ -14,16 +14,16 @@ export default function LoginPage() {
       </Link>
       <Card className="mt-7 w-[350px]">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Login</CardTitle>
+          <CardTitle className="text-center text-2xl">Sign Up</CardTitle>
         </CardHeader>
         <CardContent>
-          <LoginForm />
+          <SignUpForm />
         </CardContent>
         <CardFooter className="flex justify-center">
           <p>
-            {"Don't have an account? "}
+            {"Already have an account? "}
             <span className="font-medium hover:underline">
-              <Link href="/register">Sign Up Now</Link>
+              <Link href="/signin">Sign In Now</Link>
             </span>
           </p>
         </CardFooter>

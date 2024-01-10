@@ -18,61 +18,52 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import pb from "@/lib/pocketbase";
 import { useRouter } from "next/navigation";
 import { ClientResponseError } from "pocketbase";
-import { Separator } from "@/components/ui/separator";
-import GoogleIcon from "./icons/GoogleIcon";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import AuthProvider from "@/components/AuthProvider";
+import OrSeparator from "@/components/OrSeparator";
 
-const loginFormSchema = z.object({
+const signInFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(72),
 });
 
-type TLoginForm = z.infer<typeof loginFormSchema>;
-type Provider = "google";
+type TSignInForm = z.infer<typeof signInFormSchema>;
 
-export default function LoginForm() {
+export default function SignInForm() {
   const router = useRouter();
 
-  const loginForm = useForm<TLoginForm>({
-    resolver: zodResolver(loginFormSchema),
+  const signInForm = useForm<TSignInForm>({
+    resolver: zodResolver(signInFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: TLoginForm) {
+  function onAuthSuccess() {
+    signInForm.reset();
+    router.push("/dashboard");
+  }
+
+  async function onSubmit(values: TSignInForm) {
     try {
       const authData = await pb.collection("users").authWithPassword(values.email, values.password);
       console.log(authData);
-      router.push("/dashboard");
+      onAuthSuccess();
     } catch (error) {
       console.error(error);
       if (error instanceof ClientResponseError) {
-        loginForm.setError("email", {
+        signInForm.setError("email", {
           message: "Invalid email and/or password",
         });
       }
     }
   }
 
-  async function authWithProvider(provider: Provider, router: AppRouterInstance) {
-    try {
-      const authData = await pb.collection("users").authWithOAuth2({
-        provider: provider,
-      });
-      console.log(authData);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
-    <Form {...loginForm}>
-      <form onSubmit={loginForm.handleSubmit(onSubmit)} className="space-y-4">
+    <Form {...signInForm}>
+      <form onSubmit={signInForm.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
-          control={loginForm.control}
+          control={signInForm.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -85,7 +76,7 @@ export default function LoginForm() {
           )}
         />
         <FormField
-          control={loginForm.control}
+          control={signInForm.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -97,32 +88,18 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button disabled={loginForm.formState.isSubmitting} className="w-full" type="submit">
-          {loginForm.formState.isSubmitting ? (
+        <Button disabled={signInForm.formState.isSubmitting} className="w-full" type="submit">
+          {signInForm.formState.isSubmitting ? (
             <>
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              <p>Logging In</p>
+              <p>Signing In</p>
             </>
           ) : (
-            <p>Log In</p>
+            <p>Sign In</p>
           )}
         </Button>
-        <div className="flex items-center justify-between">
-          <Separator className="w-[45%]"></Separator>
-          <p className="text-center">or</p>
-          <Separator className="w-[45%]"></Separator>
-        </div>
-        <Button
-          type="button"
-          variant="secondary"
-          className="w-full"
-          onClick={() => authWithProvider("google", router)}
-        >
-          <div className="mr-1">
-            <GoogleIcon />
-          </div>
-          Continue with Google
-        </Button>
+        <OrSeparator />
+        <AuthProvider onAuthSuccess={onAuthSuccess} />
       </form>
     </Form>
   );

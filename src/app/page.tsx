@@ -15,7 +15,7 @@ export default function LandingPage() {
         </span>
       </p>
       <div className="flex gap-7 p-3">
-        <Link href="/login">
+        <Link href="/signin">
           <Button className="transition hover:scale-105">Get Started</Button>
         </Link>
       </div>
