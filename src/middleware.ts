@@ -3,15 +3,20 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/pocketbase";
 
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/projects"];
 
-function isAuthenticated(cookieStore: ReadonlyRequestCookies) {
+async function isAuthenticated(cookieStore: ReadonlyRequestCookies) {
+  const pb = createServerClient(cookieStore);
+
   try {
-    const { authStore } = createServerClient(cookieStore);
-    return authStore.isValid;
+    if (pb.authStore.isValid) {
+      console.log("Refreshing token for user");
+      await pb.collection("users").authRefresh();
+    }
   } catch (error) {
-    console.error(error);
-    return false;
+    pb.authStore.clear();
+  } finally {
+    return pb.authStore.isValid;
   }
 }
 
@@ -26,7 +31,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (authenticated && request.nextUrl.pathname.startsWith("/signin")) {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin).toString());
+    return NextResponse.redirect(new URL("/projects", request.nextUrl.origin).toString());
   }
 
   return NextResponse.next();

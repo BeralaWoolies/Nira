@@ -50,3 +50,15 @@ export function createServerClient(cookieStore?: ReadonlyRequestCookies) {
 
   return client;
 }
+
+export function createFileUrl({
+  collectionId,
+  recordId,
+  filename,
+}: {
+  collectionId: string;
+  recordId: string;
+  filename: string;
+}) {
+  return `${process.env.NEXT_PUBLIC_POCKETBASE_API_URL}api/files/${collectionId}/${recordId}/${filename}`;
+}

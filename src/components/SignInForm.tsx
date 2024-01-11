@@ -41,7 +41,7 @@ export default function SignInForm() {
 
   function onAuthSuccess() {
     signInForm.reset();
-    router.push("/dashboard");
+    router.push("/projects");
   }
 
   async function onSubmit(values: TSignInForm) {
