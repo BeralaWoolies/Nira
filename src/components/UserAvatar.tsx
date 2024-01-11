@@ -35,12 +35,12 @@ export default async function UserAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="h-7 w-7 hover:ring-8 hover:ring-accent">
+        <Avatar className="h-7 w-7 hover:ring-[5px] hover:ring-accent">
           <AvatarImage src={avatarUrl} alt={`@${username}`} />
           <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[300px]">
+      <DropdownMenuContent className="w-[300px]" align="end">
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
