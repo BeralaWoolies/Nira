@@ -1,17 +1,20 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
-import pb from "@/lib/pocketbase";
+import { createBrowserClient } from "@/lib/pocketbase";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 
 type Provider = "google";
 
 interface AuthProviderProps {
-  onAuthSuccess: Function;
+  onAuthSuccess: () => void;
 }
 
 export default function AuthProvider({ onAuthSuccess }: AuthProviderProps) {
   async function authWithProvider(provider: Provider) {
     try {
+      const pb = createBrowserClient();
       const authData = await pb.collection("users").authWithOAuth2({
         provider: provider,
       });

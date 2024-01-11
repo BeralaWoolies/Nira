@@ -22,7 +22,7 @@ export default function LandingPage() {
       <footer className="absolute bottom-3 flex">
         <Link href="https://github.com/BeralaWoolies/Nira">
           <Button variant="ghost" size="icon" className="mr-1">
-            <GitHubLogoIcon className="h-7 w-7"></GitHubLogoIcon>
+            <GitHubLogoIcon className="h-7 w-7" />
           </Button>
         </Link>
         <p className="pt-1.5">

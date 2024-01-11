@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import pb from "@/lib/pocketbase";
+import { createBrowserClient } from "@/lib/pocketbase";
 import { useRouter } from "next/navigation";
 import { ClientResponseError } from "pocketbase";
 import AuthProvider from "@/components/AuthProvider";
@@ -46,6 +46,7 @@ export default function SignInForm() {
 
   async function onSubmit(values: TSignInForm) {
     try {
+      const pb = createBrowserClient();
       const authData = await pb.collection("users").authWithPassword(values.email, values.password);
       console.log(authData);
       onAuthSuccess();

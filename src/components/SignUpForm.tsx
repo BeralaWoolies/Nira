@@ -18,7 +18,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import AuthProvider from "@/components/AuthProvider";
 import OrSeparator from "@/components/OrSeparator";
-import pb from "@/lib/pocketbase";
+import { createBrowserClient } from "@/lib/pocketbase";
 import { ClientResponseError } from "pocketbase";
 
 const signUpFormSchema = z
@@ -55,6 +55,7 @@ export default function SignUpForm() {
 
   async function onSubmit(values: TSignUpForm) {
     try {
+      const pb = createBrowserClient();
       const userRecord = await pb.collection("users").create({
         username: values.username,
         email: values.email,
