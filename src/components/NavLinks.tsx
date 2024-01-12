@@ -18,7 +18,7 @@ export default function NavLinks() {
 
   return (
     <>
-      <Link href="/projects">
+      <Link href="/projects" scroll={false}>
         <Button variant="ghost">
           <h1 className="text-2xl font-bold">Nira</h1>
         </Button>
@@ -26,7 +26,7 @@ export default function NavLinks() {
       {navLinks.map((navLink, index) => {
         const isActive = pathname.startsWith(navLink.href);
         return (
-          <Link key={index} href={navLink.href}>
+          <Link key={index} href={navLink.href} scroll={false}>
             <Button variant={isActive ? "secondary" : "ghost"}>
               <h2 className={cn("text-base", isActive && "font-semibold")}>{navLink.label}</h2>
             </Button>

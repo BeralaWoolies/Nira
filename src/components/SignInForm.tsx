@@ -41,7 +41,7 @@ export default function SignInForm() {
 
   function onAuthSuccess() {
     signInForm.reset();
-    router.push("/projects");
+    router.push("/projects", { scroll: false });
   }
 
   async function onSubmit(values: TSignInForm) {

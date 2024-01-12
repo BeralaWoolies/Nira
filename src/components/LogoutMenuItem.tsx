@@ -11,7 +11,7 @@ function LogoutMenuItem() {
 
   function handleLogout() {
     pb.authStore.clear();
-    router.replace("/signin");
+    router.replace("/signin", { scroll: false });
   }
 
   return (

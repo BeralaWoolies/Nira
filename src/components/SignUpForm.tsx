@@ -50,7 +50,7 @@ export default function SignUpForm() {
 
   function onAuthSuccess() {
     signUpForm.reset();
-    router.push("/projects");
+    router.push("/projects", { scroll: false });
   }
 
   async function onSubmit(values: TSignUpForm) {

@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function SignUpPage() {
   return (
     <CenterContainer>
-      <Link href="/">
+      <Link href="/" scroll={false}>
         <LogoHeader />
       </Link>
       <Card className="mt-7 w-[350px]">
