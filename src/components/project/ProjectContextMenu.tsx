@@ -43,7 +43,7 @@ export default function ProjectContextMenu({ project }: Project) {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Pencil1Icon />
+          <Pencil1Icon className="rounded-full hover:ring-[5px] hover:ring-accent" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="absolute bottom-0 left-6">
           <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>

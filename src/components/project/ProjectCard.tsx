@@ -13,12 +13,11 @@ export default function ProjectCard({ project }: Project) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle>{project.name}</CardTitle>
+            <CardTitle className="cursor-pointer hover:underline">{project.name}</CardTitle>
             <ProjectContextMenu project={project} />
           </div>
-          <CardDescription>{project.key}</CardDescription>
         </div>
-        <CardDescription>{project.description}</CardDescription>
+        <CardDescription>{project.key}</CardDescription>
       </CardHeader>
       <CardFooter className="absolute bottom-3 p-0 pl-6">
         <div className="flex items-center gap-1">
