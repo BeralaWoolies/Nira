@@ -1,53 +1,25 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { createFileUrl, createServerClient } from "@/lib/pocketbase";
-import { cookies } from "next/headers";
-import { AuthSystemFields, UsersResponse } from "@/types/pocketbase-types";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import LogoutMenuItem from "@/components/LogoutMenuItem";
+import { createFileUrl } from "@/lib/pocketbase";
+import { UsersResponse } from "@/types/pocketbase-types";
 
-export default async function UserAvatar() {
-  const pb = createServerClient(cookies());
-  const { id: userId } = pb.authStore.model as AuthSystemFields;
+interface UserAvatarProps {
+  user: UsersResponse;
+}
 
-  const {
-    collectionId,
-    id: recordId,
-    avatar,
-    username,
-  } = await pb.collection("users").getOne<UsersResponse>(userId);
-
-  const avatarUrl = avatar
+export default async function UserAvatar({ user }: UserAvatarProps) {
+  const avatarUrl = user.avatar
     ? createFileUrl({
-        collectionId: collectionId,
-        recordId: recordId,
-        filename: avatar,
+        collectionId: user.collectionId,
+        recordId: user.id,
+        filename: user.avatar,
       })
     : undefined;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className="h-7 w-7 hover:ring-[5px] hover:ring-accent">
-          <AvatarImage src={avatarUrl} alt={`@${username}`} />
-          <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[300px]" align="end">
-        <DropdownMenuLabel>Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <LogoutMenuItem />
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Avatar className="h-7 w-7 hover:ring-[5px] hover:ring-accent">
+      <AvatarImage src={avatarUrl} alt={`@${user.username}`} />
+      <AvatarFallback>{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
+    </Avatar>
   );
 }
