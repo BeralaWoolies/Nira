@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeToggle } from "./ThemeToggle";
-import NavLinks from "@/components/NavLinks";
-import ProfileContextMenu from "@/components/ProfileContextMenu";
+import NavLinks from "@/components/navbar/NavLinks";
+import ProfileContextMenu from "@/components/navbar/ProfileContextMenu";
 
 export default function NavBar() {
   return (

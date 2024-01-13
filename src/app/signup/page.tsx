@@ -3,7 +3,7 @@ import LogoHeader from "@/components/LogoHeader";
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/components/auth/SignUpForm";
 import Link from "next/link";
 
 export default function SignUpPage() {

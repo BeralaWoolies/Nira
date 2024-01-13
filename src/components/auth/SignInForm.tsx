@@ -18,7 +18,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { createBrowserClient } from "@/lib/pocketbase";
 import { useRouter } from "next/navigation";
 import { ClientResponseError } from "pocketbase";
-import AuthProvider from "@/components/AuthProvider";
+import AuthProvider from "@/components/auth/AuthProvider";
 import OrSeparator from "@/components/OrSeparator";
 
 const signInFormSchema = z.object({

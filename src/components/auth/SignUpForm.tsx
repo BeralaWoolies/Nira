@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
-import AuthProvider from "@/components/AuthProvider";
+import AuthProvider from "@/components/auth/AuthProvider";
 import OrSeparator from "@/components/OrSeparator";
 import { createBrowserClient } from "@/lib/pocketbase";
 import { ClientResponseError } from "pocketbase";

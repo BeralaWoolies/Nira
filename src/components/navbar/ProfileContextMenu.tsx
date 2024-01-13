@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import LogoutMenuItem from "@/components/LogoutMenuItem";
+import LogoutMenuItem from "@/components/navbar/LogoutMenuItem";
 import UserAvatar from "@/components/UserAvatar";
 
 export default async function ProfileContextMenu() {
