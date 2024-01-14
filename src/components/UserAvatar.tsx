@@ -7,7 +7,7 @@ interface UserAvatarProps {
   user: UsersResponse;
 }
 
-export default async function UserAvatar({ user }: UserAvatarProps) {
+export default function UserAvatar({ user }: UserAvatarProps) {
   const avatarUrl = user.avatar
     ? createFileUrl({
         collectionId: user.collectionId,
