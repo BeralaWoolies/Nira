@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/pocketbase";
 
-const protectedRoutes = ["/projects"];
+const unprotectedRoutes = ["/", "/signin", "/signup"];
 
 async function isAuthenticated(cookieStore: ReadonlyRequestCookies) {
   const pb = createServerClient(cookieStore);
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   const cookieStore = cookies();
   const authenticated = await isAuthenticated(cookieStore);
 
-  if (!authenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+  if (!authenticated && !unprotectedRoutes.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/signin", request.nextUrl.origin).toString());
   }
 
