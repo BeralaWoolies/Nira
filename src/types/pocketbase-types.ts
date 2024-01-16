@@ -6,6 +6,9 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Boards = "boards",
+	Columns = "columns",
+	Issues = "issues",
 	Projects = "projects",
 	Users = "users",
 }
@@ -34,7 +37,22 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export type BoardsRecord = {
+	columns?: RecordIdString[]
+}
+
+export type ColumnsRecord = {
+	issues?: RecordIdString[]
+	title: string
+}
+
+export type IssuesRecord = {
+	description: string
+	title: string
+}
+
 export type ProjectsRecord = {
+	board?: RecordIdString
 	description?: string
 	key: string
 	members: RecordIdString[]
@@ -46,17 +64,26 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type BoardsResponse<Texpand = unknown> = Required<BoardsRecord> & BaseSystemFields<Texpand>
+export type ColumnsResponse<Texpand = unknown> = Required<ColumnsRecord> & BaseSystemFields<Texpand>
+export type IssuesResponse<Texpand = unknown> = Required<IssuesRecord> & BaseSystemFields<Texpand>
 export type ProjectsResponse<Texpand = unknown> = Required<ProjectsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	boards: BoardsRecord
+	columns: ColumnsRecord
+	issues: IssuesRecord
 	projects: ProjectsRecord
 	users: UsersRecord
 }
 
 export type CollectionResponses = {
+	boards: BoardsResponse
+	columns: ColumnsResponse
+	issues: IssuesResponse
 	projects: ProjectsResponse
 	users: UsersResponse
 }
@@ -65,6 +92,9 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'boards'): RecordService<BoardsResponse>
+	collection(idOrName: 'columns'): RecordService<ColumnsResponse>
+	collection(idOrName: 'issues'): RecordService<IssuesResponse>
 	collection(idOrName: 'projects'): RecordService<ProjectsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }
