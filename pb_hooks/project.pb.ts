@@ -28,6 +28,7 @@ onRecordBeforeCreateRequest((e) => {
       }
 
       const boardRecord = new Record(boardsCollection, {
+        name: `${projectRecord.getString("key")} board`,
         columns: columnRecordIds,
       });
       txDao.saveRecord(boardRecord);

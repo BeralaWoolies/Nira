@@ -3,6 +3,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import UserAvatar from "@/components/UserAvatar";
 import ProjectContextMenu from "@/components/project/ProjectContextMenu";
 import { Project } from "@/types/project-types";
+import Link from "next/link";
 
 export default function ProjectCard({ project }: Project) {
   let members = project.expand?.members;
@@ -13,7 +14,9 @@ export default function ProjectCard({ project }: Project) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="cursor-pointer hover:underline">{project.name}</CardTitle>
+            <Link href={`/projects/boards/${project.id}`}>
+              <CardTitle className="cursor-pointer hover:underline">{project.name}</CardTitle>
+            </Link>
             <ProjectContextMenu project={project} />
           </div>
         </div>

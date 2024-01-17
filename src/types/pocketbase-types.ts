@@ -39,6 +39,7 @@ export type AuthSystemFields<T = never> = {
 
 export type BoardsRecord = {
 	columns?: RecordIdString[]
+	name: string
 }
 
 export type ColumnsRecord = {
