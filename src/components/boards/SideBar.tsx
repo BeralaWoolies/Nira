@@ -1,4 +1,3 @@
-import { TProjectsExpand } from "@/types/boards-interface";
 import { ProjectsResponse } from "@/types/pocketbase-types";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
@@ -13,10 +12,11 @@ import {
 } from "@/components/ui/accordion";
 
 interface SideBarProps {
-  project: ProjectsResponse<TProjectsExpand>;
+  project: ProjectsResponse;
 }
 
 export default function SideBar({ project }: SideBarProps) {
+  console.log("SideBar rendered");
   return (
     <aside className="flex h-full flex-col justify-between px-4 py-6">
       <div className="flex flex-col gap-1">
@@ -26,7 +26,7 @@ export default function SideBar({ project }: SideBarProps) {
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger>Planning</AccordionTrigger>
             <AccordionContent>
-              <Link href="/projects">
+              <Link href="/projects" scroll={false}>
                 <Button variant="secondary" className="w-full justify-start p-2">
                   <LayoutIcon className="mr-1 h-5 w-5" />
                   Board
@@ -38,7 +38,7 @@ export default function SideBar({ project }: SideBarProps) {
       </div>
       <div className="flex flex-col gap-2">
         <Separator />
-        <Link href="/projects">
+        <Link href="/projects" scroll={false}>
           <Button variant="ghost" className="w-full justify-start p-2">
             <GearIcon className="mr-1 h-5 w-5" />
             Project Settings

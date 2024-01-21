@@ -6,15 +6,15 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import SideBar from "@/components/boards/SideBar";
-import { ProjectsResponse } from "@/types/pocketbase-types";
-import { TProjectsExpand } from "@/types/boards-interface";
 
-interface BoardsViewProps {
-  project: ProjectsResponse<TProjectsExpand>;
+interface WorkspaceViewProps {
+  sideView: React.JSX.Element;
+  children: React.ReactNode;
 }
 
-export default function BoardsView({ project }: BoardsViewProps) {
+export default function WorkspaceView({ sideView, children: mainView }: WorkspaceViewProps) {
+  console.log("WorkspaceView rendered");
+
   const [pinned, setPinned] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -81,9 +81,7 @@ export default function BoardsView({ project }: BoardsViewProps) {
         onMouseOver={() => handleMouseOverLeave(true)}
         onMouseLeave={() => handleMouseOverLeave(false)}
       >
-        <div className={cn("h-full", collapsed && "opacity-0")}>
-          <SideBar project={project} />
-        </div>
+        <div className={cn("h-full", collapsed && "opacity-0")}>{sideView}</div>
       </ResizablePanel>
       <ResizableHandle
         className={cn(
@@ -106,7 +104,7 @@ export default function BoardsView({ project }: BoardsViewProps) {
         </Button>
       </ResizableHandle>
       <ResizablePanel order={2} defaultSize={85} minSize={50}>
-        Two
+        {mainView}
       </ResizablePanel>
     </ResizablePanelGroup>
   );

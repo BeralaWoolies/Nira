@@ -27,9 +27,10 @@ onRecordBeforeCreateRequest((e) => {
         columnRecordIds.push(columnRecord.getId());
       }
 
+      txDao.saveRecord(projectRecord);
       const boardRecord = new Record(boardsCollection, {
-        name: `${projectRecord.getString("key")} board`,
         columns: columnRecordIds,
+        project: [projectRecord.getId()],
       });
       txDao.saveRecord(boardRecord);
 

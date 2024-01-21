@@ -38,8 +38,8 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export type BoardsRecord = {
-	columns?: RecordIdString[]
-	name: string
+	columns: RecordIdString[]
+	project: RecordIdString
 }
 
 export type ColumnsRecord = {
@@ -48,7 +48,7 @@ export type ColumnsRecord = {
 }
 
 export type IssuesRecord = {
-	description: string
+	description?: string
 	title: string
 }
 

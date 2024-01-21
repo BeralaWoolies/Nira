@@ -14,7 +14,7 @@ export default function ProjectCard({ project }: Project) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link href={`/projects/boards/${project.id}`}>
+            <Link href={`/projects/${project.id}/boards/${project.board}`}>
               <CardTitle className="cursor-pointer hover:underline">{project.name}</CardTitle>
             </Link>
             <ProjectContextMenu project={project} />
