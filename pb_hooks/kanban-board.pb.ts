@@ -32,3 +32,35 @@ routerAdd("POST", "/api/nira/update/issues-between", (c) => {
     success: `Successfully reordered issues between source column: ${data.sourceColumnId} and destination column: ${data.destColumnId}`,
   });
 });
+
+routerAdd("POST", "/api/nira/issue", (c) => {
+  const data = new DynamicModel({
+    columnId: "",
+    title: "",
+  });
+  c.bind(data);
+
+  const issuesCollection = $app.dao().findCollectionByNameOrId("issues");
+
+  try {
+    $app.dao().runInTransaction((txDao) => {
+      const issueRecord = new Record(issuesCollection, {
+        title: data.title,
+      });
+      txDao.saveRecord(issueRecord);
+
+      const columnRecord = txDao.findRecordById("columns", data.columnId);
+      columnRecord.set(
+        "issues",
+        columnRecord.getStringSlice("issues").concat([issueRecord.getId()])
+      );
+      txDao.saveRecord(columnRecord);
+    });
+  } catch (error) {
+    throw new ApiError(500, `Could not create issue in column: ${columnId}`);
+  }
+
+  return c.json(200, {
+    success: `Successfully created issue in column: ${data.columnId}`,
+  });
+});

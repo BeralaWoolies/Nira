@@ -3,9 +3,9 @@
 import { TColumn } from "@/types/boards-types";
 import React from "react";
 import IssueCard from "@/components/kanban-board/IssueCard";
-import { Button } from "@/components/ui/button";
-import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
+import CreateIssueForm from "@/components/kanban-board/CreateIssueForm";
 
 interface ColumnProps {
   column: TColumn;
@@ -36,13 +36,7 @@ export default function Column({ column, index }: ColumnProps) {
                   <IssueCard key={issue.id} issue={issue} index={index} />
                 ))}
                 {droppableProvided.placeholder}
-                <Button
-                  className="invisible w-full rounded-md opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover:visible group-hover:opacity-100"
-                  variant="ghost"
-                >
-                  <PlusIcon className="h-5 w-5" />
-                  Create issue
-                </Button>
+                <CreateIssueForm columnId={column.id} />
               </ol>
             )}
           </Droppable>

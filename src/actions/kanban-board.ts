@@ -1,6 +1,7 @@
 "use server";
 
 import { createServerClient } from "@/lib/pocketbase";
+import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
 import { Collections } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
@@ -14,12 +15,13 @@ export async function updateColumnsOrder(boardId: string, reorderedColumns: TCol
     await pb.collection(Collections.Boards).update(boardId, {
       columns: reorderedColumnIds,
     });
-    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder columns of board: ${boardId}`,
     };
   }
+
+  revalidatePath(headers().get("referer") || "");
 }
 
 export async function updateIssuesOrder(column: TColumn) {
@@ -30,12 +32,13 @@ export async function updateIssuesOrder(column: TColumn) {
     await pb.collection(Collections.Columns).update(column.id, {
       issues: reorderedIssueIds,
     });
-    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder issues of column: ${column.id}`,
     };
   }
+
+  revalidatePath(headers().get("referer") || "");
 }
 
 export async function updateIssuesOrderBetween(sourceColumn: TColumn, destColumn: TColumn) {
@@ -50,10 +53,30 @@ export async function updateIssuesOrderBetween(sourceColumn: TColumn, destColumn
         destColumnIssueIds: destColumn.expand!.issues.map((issue) => issue.id),
       },
     });
-    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder issues between source column: ${sourceColumn.id} and destination column: ${destColumn.id}`,
     };
   }
+
+  revalidatePath(headers().get("referer") || "");
+}
+
+export async function createIssue(columnId: string, values: TIssueForm) {
+  try {
+    const pb = createServerClient(cookies());
+    await pb.send("/api/nira/issue", {
+      method: "POST",
+      body: {
+        columnId: columnId,
+        title: values.title,
+      },
+    });
+  } catch (error) {
+    return {
+      error: `Could not create issue in column: ${columnId}`,
+    };
+  }
+
+  revalidatePath(headers().get("referer") || "");
 }
