@@ -69,7 +69,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
                 <FormControl>
                   <Textarea
                     spellCheck={false}
-                    className="shadow- resize-none border-none focus-visible:ring-0"
+                    className="resize-none border-none shadow-none focus-visible:ring-0"
                     {...field}
                     autoFocus
                     onKeyDown={onKeyDown}
