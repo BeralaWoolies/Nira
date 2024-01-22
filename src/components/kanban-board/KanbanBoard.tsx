@@ -1,7 +1,7 @@
 "use client";
 
 import { TColumn } from "@/types/boards-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Column from "@/components/kanban-board/Column";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import {
@@ -9,6 +9,7 @@ import {
   updateIssuesOrder,
   updateIssuesOrderBetween,
 } from "@/actions/kanban-board";
+import { produce } from "immer";
 
 interface KanbanBoardProps {
   data: TColumn[];
@@ -17,10 +18,13 @@ interface KanbanBoardProps {
 
 export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
   console.log("KanbanBoard rendered");
-  console.dir(data, { depth: null });
 
   const [columns, setColumns] = useState(data);
   console.table(columns);
+
+  useEffect(() => {
+    setColumns(data);
+  }, [data]);
 
   function handleDragEnd(result: DropResult) {
     const { source, destination, type } = result;
@@ -51,27 +55,31 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
   }
 
   async function reorderColumns(sourceIndex: number, destIndex: number) {
-    const newColumns = [...columns];
-    const reorderedColumns = reorderArray(newColumns, sourceIndex, destIndex);
+    const newColumns = produce(columns, (draftColumns) =>
+      reorderArray(draftColumns, sourceIndex, destIndex)
+    );
 
-    setColumns(reorderedColumns);
-    const result = await updateColumnsOrder(boardId, reorderedColumns);
+    setColumns(newColumns);
+    const result = await updateColumnsOrder(boardId, newColumns);
     if (result?.error) {
       console.error(result.error);
     }
   }
 
   async function reorderIssues(sourceColumnId: string, sourceIndex: number, destIndex: number) {
-    const newColumns = [...columns];
-    const column = newColumns.find((col) => col.id === sourceColumnId) as TColumn;
+    const sourceColumnIndex = columns.findIndex((col) => col.id === sourceColumnId);
 
-    if (!column.expand) return;
+    if (sourceColumnIndex === -1) return;
 
-    const reorderedIssues = reorderArray(column.expand.issues, sourceIndex, destIndex);
-    column.expand.issues = reorderedIssues;
+    const newColumns = produce(columns, (draftColumns) => {
+      const sourceColumn = draftColumns[sourceColumnIndex];
+
+      sourceColumn.expand ??= { issues: [] };
+      sourceColumn.expand.issues = reorderArray(sourceColumn.expand.issues, sourceIndex, destIndex);
+    });
 
     setColumns(newColumns);
-    const result = await updateIssuesOrder(column);
+    const result = await updateIssuesOrder(newColumns[sourceColumnIndex]);
     if (result?.error) {
       console.error(result.error);
     }
@@ -83,24 +91,28 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
     sourceIndex: number,
     destIndex: number
   ) {
-    const newColumns = [...columns];
-    const sourceColumn = newColumns.find((col) => col.id === sourceColumnId) as TColumn;
-    const destColumn = newColumns.find((col) => col.id === destColumnId) as TColumn;
+    const sourceColumnIndex = columns.findIndex((col) => col.id === sourceColumnId);
+    const destColumnIndex = columns.findIndex((col) => col.id === destColumnId);
 
-    if (!sourceColumn.expand) return;
+    if (sourceColumnIndex === -1 || destColumnIndex === -1) return;
 
-    if (!destColumn.expand) {
-      destColumn.expand = {
-        issues: [],
-      };
-    }
+    const newColumns = produce(columns, (draftColumns) => {
+      const sourceColumn = draftColumns[sourceColumnIndex];
+      const destColumn = draftColumns[destColumnIndex];
 
-    // move issue from source column to destination column
-    const [movedIssue] = sourceColumn.expand.issues.splice(sourceIndex, 1);
-    destColumn.expand.issues.splice(destIndex, 0, movedIssue);
+      sourceColumn.expand ??= { issues: [] };
+      destColumn.expand ??= { issues: [] };
+
+      // move issue from source column to destination column
+      const [movedIssue] = sourceColumn.expand.issues.splice(sourceIndex, 1);
+      destColumn.expand.issues.splice(destIndex, 0, movedIssue);
+    });
 
     setColumns(newColumns);
-    const result = await updateIssuesOrderBetween(sourceColumn, destColumn);
+    const result = await updateIssuesOrderBetween(
+      newColumns[sourceColumnIndex],
+      newColumns[destColumnIndex]
+    );
     if (result?.error) {
       console.error(result.error);
     }
@@ -122,7 +134,9 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
             {...droppableProvided.droppableProps}
             className="flex"
           >
-            {columns?.map((col, index) => <Column key={col.id} column={col} index={index} />)}
+            {columns.map((col, index) => (
+              <Column key={col.id} column={col} index={index} />
+            ))}
             {droppableProvided.placeholder}
           </ol>
         )}

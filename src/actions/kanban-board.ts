@@ -14,6 +14,7 @@ export async function updateColumnsOrder(boardId: string, reorderedColumns: TCol
     await pb.collection(Collections.Boards).update(boardId, {
       columns: reorderedColumnIds,
     });
+    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder columns of board: ${boardId}`,
@@ -29,6 +30,7 @@ export async function updateIssuesOrder(column: TColumn) {
     await pb.collection(Collections.Columns).update(column.id, {
       issues: reorderedIssueIds,
     });
+    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder issues of column: ${column.id}`,
@@ -48,6 +50,7 @@ export async function updateIssuesOrderBetween(sourceColumn: TColumn, destColumn
         destColumnIssueIds: destColumn.expand!.issues.map((issue) => issue.id),
       },
     });
+    revalidatePath(headers().get("referer") || "");
   } catch (error) {
     return {
       error: `Could not reorder issues between source column: ${sourceColumn.id} and destination column: ${destColumn.id}`,
