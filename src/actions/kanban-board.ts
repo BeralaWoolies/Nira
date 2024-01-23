@@ -1,6 +1,7 @@
 "use server";
 
 import { createServerClient } from "@/lib/pocketbase";
+import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
 import { Collections } from "@/types/pocketbase-types";
@@ -75,6 +76,25 @@ export async function createIssue(columnId: string, values: TIssueForm) {
   } catch (error) {
     return {
       error: `Could not create issue in column: ${columnId}`,
+    };
+  }
+
+  revalidatePath(headers().get("referer") || "");
+}
+
+export async function createColumn(boardId: string, values: TColumnForm) {
+  try {
+    const pb = createServerClient(cookies());
+    await pb.send("/api/nira/column", {
+      method: "POST",
+      body: {
+        boardId: boardId,
+        title: values.title,
+      },
+    });
+  } catch (error) {
+    return {
+      error: `Could not create column in board: ${boardId}`,
     };
   }
 

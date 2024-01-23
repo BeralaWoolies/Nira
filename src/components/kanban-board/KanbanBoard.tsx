@@ -10,6 +10,7 @@ import {
   updateIssuesOrderBetween,
 } from "@/actions/kanban-board";
 import { produce } from "immer";
+import CreateColumnForm from "@/components/kanban-board/CreateColumnForm";
 
 interface KanbanBoardProps {
   data: TColumn[];
@@ -129,7 +130,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="columns" type="column" direction="horizontal">
         {(droppableProvided) => (
-          <ol
+          <div
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
             className="flex overflow-x-auto"
@@ -138,7 +139,8 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
               <Column key={col.id} column={col} index={index} />
             ))}
             {droppableProvided.placeholder}
-          </ol>
+            <CreateColumnForm boardId={boardId} />
+          </div>
         )}
       </Droppable>
     </DragDropContext>

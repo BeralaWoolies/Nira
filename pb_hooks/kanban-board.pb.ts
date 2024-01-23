@@ -64,3 +64,35 @@ routerAdd("POST", "/api/nira/issue", (c) => {
     success: `Successfully created issue in column: ${data.columnId}`,
   });
 });
+
+routerAdd("POST", "/api/nira/column", (c) => {
+  const data = new DynamicModel({
+    boardId: "",
+    title: "",
+  });
+  c.bind(data);
+
+  const columnsCollection = $app.dao().findCollectionByNameOrId("columns");
+
+  try {
+    $app.dao().runInTransaction((txDao) => {
+      const columnRecord = new Record(columnsCollection, {
+        title: data.title,
+      });
+      txDao.saveRecord(columnRecord);
+
+      const boardRecord = txDao.findRecordById("boards", data.boardId);
+      boardRecord.set(
+        "columns",
+        boardRecord.getStringSlice("columns").concat([columnRecord.getId()])
+      );
+      txDao.saveRecord(boardRecord);
+    });
+  } catch (error) {
+    throw new ApiError(500, `Could not create column in board: ${data.boardId}`);
+  }
+
+  return c.json(200, {
+    success: `Successfully created column in board: ${data.boardId}`,
+  });
+});
