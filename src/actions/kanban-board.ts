@@ -8,7 +8,20 @@ import { Collections } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 
-export async function updateColumnsOrder(boardId: string, reorderedColumns: TColumn[]) {
+export type KanbanResponse =
+  | {
+      success: string;
+      error?: undefined;
+    }
+  | {
+      error: string;
+      success?: undefined;
+    };
+
+export async function updateColumnsOrder(
+  boardId: string,
+  reorderedColumns: TColumn[]
+): Promise<KanbanResponse> {
   const reorderedColumnIds = reorderedColumns.map((col) => col.id);
 
   try {
@@ -16,16 +29,19 @@ export async function updateColumnsOrder(boardId: string, reorderedColumns: TCol
     await pb.collection(Collections.Boards).update(boardId, {
       columns: reorderedColumnIds,
     });
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: "Swapped columns successfully",
+    };
   } catch (error) {
     return {
-      error: `Could not reorder columns of board: ${boardId}`,
+      error: "Could not reorder columns",
     };
   }
-
-  revalidatePath(headers().get("referer") || "");
 }
 
-export async function updateIssuesOrder(column: TColumn) {
+export async function updateIssuesOrder(column: TColumn): Promise<KanbanResponse> {
   const reorderedIssueIds = column.expand!.issues.map((issue) => issue.id);
 
   try {
@@ -33,16 +49,22 @@ export async function updateIssuesOrder(column: TColumn) {
     await pb.collection(Collections.Columns).update(column.id, {
       issues: reorderedIssueIds,
     });
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Swapped issues successfully in "${column.title}"`,
+    };
   } catch (error) {
     return {
-      error: `Could not reorder issues of column: ${column.id}`,
+      error: `Could not reorder issues in "${column.title}"`,
     };
   }
-
-  revalidatePath(headers().get("referer") || "");
 }
 
-export async function updateIssuesOrderBetween(sourceColumn: TColumn, destColumn: TColumn) {
+export async function updateIssuesOrderBetween(
+  sourceColumn: TColumn,
+  destColumn: TColumn
+): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/update/issues-between", {
@@ -54,16 +76,19 @@ export async function updateIssuesOrderBetween(sourceColumn: TColumn, destColumn
         destColumnIssueIds: destColumn.expand!.issues.map((issue) => issue.id),
       },
     });
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully moved issue to "${sourceColumn.title}"`,
+    };
   } catch (error) {
     return {
-      error: `Could not reorder issues between source column: ${sourceColumn.id} and destination column: ${destColumn.id}`,
+      error: `Could not move issue from "${sourceColumn.title}" to "${destColumn.title}"`,
     };
   }
-
-  revalidatePath(headers().get("referer") || "");
 }
 
-export async function createIssue(columnId: string, values: TIssueForm) {
+export async function createIssue(columnId: string, values: TIssueForm): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/issue", {
@@ -73,16 +98,19 @@ export async function createIssue(columnId: string, values: TIssueForm) {
         title: values.title,
       },
     });
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully created new issue "${values.title}"`,
+    };
   } catch (error) {
     return {
-      error: `Could not create issue in column: ${columnId}`,
+      error: `Could not create new issue "${values.title}"`,
     };
   }
-
-  revalidatePath(headers().get("referer") || "");
 }
 
-export async function createColumn(boardId: string, values: TColumnForm) {
+export async function createColumn(boardId: string, values: TColumnForm): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/column", {
@@ -92,11 +120,14 @@ export async function createColumn(boardId: string, values: TColumnForm) {
         title: values.title,
       },
     });
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully created new column "${values.title}"`,
+    };
   } catch (error) {
     return {
-      error: `Could not create column in board: ${boardId}`,
+      error: `Could not create new column "${values.title}"`,
     };
   }
-
-  revalidatePath(headers().get("referer") || "");
 }

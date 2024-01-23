@@ -4,13 +4,14 @@ import { TColumn } from "@/types/boards-types";
 import React, { useEffect, useState } from "react";
 import Column from "@/components/kanban-board/Column";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
+import { produce } from "immer";
+import CreateColumnForm from "@/components/kanban-board/CreateColumnForm";
 import {
   updateColumnsOrder,
   updateIssuesOrder,
   updateIssuesOrderBetween,
 } from "@/actions/kanban-board";
-import { produce } from "immer";
-import CreateColumnForm from "@/components/kanban-board/CreateColumnForm";
+import toastKanbanResponse from "@/utils/toast-responses";
 
 interface KanbanBoardProps {
   data: TColumn[];
@@ -61,10 +62,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
     );
 
     setColumns(newColumns);
-    const result = await updateColumnsOrder(boardId, newColumns);
-    if (result?.error) {
-      console.error(result.error);
-    }
+    toastKanbanResponse(await updateColumnsOrder(boardId, newColumns));
   }
 
   async function reorderIssues(sourceColumnId: string, sourceIndex: number, destIndex: number) {
@@ -80,10 +78,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
     });
 
     setColumns(newColumns);
-    const result = await updateIssuesOrder(newColumns[sourceColumnIndex]);
-    if (result?.error) {
-      console.error(result.error);
-    }
+    toastKanbanResponse(await updateIssuesOrder(newColumns[sourceColumnIndex]));
   }
 
   async function reorderIssuesBetween(
@@ -110,13 +105,9 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
     });
 
     setColumns(newColumns);
-    const result = await updateIssuesOrderBetween(
-      newColumns[sourceColumnIndex],
-      newColumns[destColumnIndex]
+    toastKanbanResponse(
+      await updateIssuesOrderBetween(newColumns[sourceColumnIndex], newColumns[destColumnIndex])
     );
-    if (result?.error) {
-      console.error(result.error);
-    }
   }
 
   function reorderArray<T>(list: T[], sourceIndex: number, destIndex: number): T[] {

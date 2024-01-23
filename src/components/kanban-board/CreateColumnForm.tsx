@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import { createColumn } from "@/actions/kanban-board";
+import toastKanbanResponse from "@/utils/toast-responses";
 
 interface CreateColumnForm {
   boardId: string;
@@ -28,13 +29,8 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
   });
 
   async function onSubmit(values: TColumnForm) {
-    console.log(values);
-    try {
-      await createColumn(boardId, values);
-      setEditingMode(false);
-    } catch (error) {
-      console.error(error);
-    }
+    toastKanbanResponse(await createColumn(boardId, values));
+    setEditingMode(false);
   }
 
   if (!editingMode) {
@@ -43,7 +39,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
         <TooltipTrigger asChild>
           <Button
             variant="secondary"
-            size="sm"
+            size="icon"
             onClick={() => {
               setEditingMode(true);
               columnForm.reset();
