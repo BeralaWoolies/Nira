@@ -6,47 +6,55 @@ import IssueCard from "@/components/kanban-board/IssueCard";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import CreateIssueForm from "@/components/kanban-board/CreateIssueForm";
+import isEqual from "react-fast-compare";
 
 interface ColumnProps {
   column: TColumn;
   index: number;
 }
 
-export default function Column({ column, index }: ColumnProps) {
-  return (
-    <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
-      {(draggableProvided) => (
-        <div
-          className="group mr-4 flex max-h-[80dvh] min-h-[540px] min-w-[270px] flex-col rounded-md bg-secondary shadow-md"
-          ref={draggableProvided.innerRef}
-          {...draggableProvided.draggableProps}
-        >
+const Column = React.memo(
+  function Column({ column, index }: ColumnProps) {
+    return (
+      <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
+        {(draggableProvided) => (
           <div
-            {...draggableProvided.dragHandleProps}
-            className="flex items-center rounded-t-md py-2 pl-1 shadow-md"
+            className="group mb-4 mr-4 flex max-h-[78dvh] min-h-[540px] min-w-[270px] flex-col rounded-sm bg-secondary shadow-md"
+            ref={draggableProvided.innerRef}
+            {...draggableProvided.draggableProps}
           >
-            <DragHandleDots2Icon className="mr-1 h-4 w-4" />
-            <h1 className="text-sm">{column.title}</h1>
+            <div
+              className="flex items-center rounded-t-sm py-2 pl-1 shadow-sm"
+              {...draggableProvided.dragHandleProps}
+            >
+              <DragHandleDots2Icon className="mr-1 h-4 w-4" />
+              <h1 className="text-sm">{column.title}</h1>
+            </div>
+            <div className="overflow-y-auto">
+              <Droppable droppableId={column.id} type="issue" direction="vertical">
+                {(droppableProvided) => (
+                  <ol
+                    ref={droppableProvided.innerRef}
+                    {...droppableProvided.droppableProps}
+                    className="flex w-full flex-col items-center p-1"
+                  >
+                    {column.expand?.issues.map((issue, index) => (
+                      <IssueCard key={issue.id} issue={issue} index={index} />
+                    ))}
+                    {droppableProvided.placeholder}
+                    <CreateIssueForm columnId={column.id} />
+                  </ol>
+                )}
+              </Droppable>
+            </div>
           </div>
-          <div className="overflow-y-auto">
-            <Droppable droppableId={column.id} type="issue" direction="vertical">
-              {(droppableProvided) => (
-                <ol
-                  ref={droppableProvided.innerRef}
-                  {...droppableProvided.droppableProps}
-                  className="flex w-full flex-col items-center p-1"
-                >
-                  {column.expand?.issues.map((issue, index) => (
-                    <IssueCard key={issue.id} issue={issue} index={index} />
-                  ))}
-                  {droppableProvided.placeholder}
-                  <CreateIssueForm columnId={column.id} />
-                </ol>
-              )}
-            </Droppable>
-          </div>
-        </div>
-      )}
-    </Draggable>
-  );
-}
+        )}
+      </Draggable>
+    );
+  },
+  function propsAreEqual(prevProps, nextProps) {
+    return prevProps.index === nextProps.index && isEqual(prevProps.column, nextProps.column);
+  }
+);
+
+export default Column;

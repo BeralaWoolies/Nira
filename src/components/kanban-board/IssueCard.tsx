@@ -10,7 +10,7 @@ interface IssueCardProps {
   index: number;
 }
 
-export default function IssueCard({ issue, index }: IssueCardProps) {
+const IssueCard = React.memo(function IssueCard({ issue, index }: IssueCardProps) {
   return (
     <Draggable key={issue.id} draggableId={issue.id.toString()} index={index}>
       {(draggableProvided) => (
@@ -25,4 +25,6 @@ export default function IssueCard({ issue, index }: IssueCardProps) {
       )}
     </Draggable>
   );
-}
+});
+
+export default IssueCard;

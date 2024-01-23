@@ -132,7 +132,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
           <ol
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
-            className="flex"
+            className="flex overflow-x-auto"
           >
             {columns.map((col, index) => (
               <Column key={col.id} column={col} index={index} />

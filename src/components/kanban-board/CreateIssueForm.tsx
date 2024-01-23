@@ -31,7 +31,6 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
     if (event.key === "Enter") {
       event.preventDefault();
       ref.current?.requestSubmit();
-      setEditingMode(false);
     }
   }
 
@@ -39,6 +38,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
     try {
       await createIssue(columnId, values);
       issueForm.reset();
+      setEditingMode(false);
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +47,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   if (!editingMode) {
     return (
       <Button
-        className="invisible w-full rounded-md opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover:visible group-hover:opacity-100"
+        className="invisible w-full rounded-sm opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover:visible group-hover:opacity-100"
         variant="ghost"
         onClick={() => setEditingMode(true)}
       >
