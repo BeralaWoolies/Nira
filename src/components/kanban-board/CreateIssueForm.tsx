@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,6 +27,10 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
       title: "",
     },
   });
+
+  const onCardVisible = useCallback((cardRef: HTMLDivElement) => {
+    cardRef?.scrollIntoView();
+  }, []);
 
   function onKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
@@ -55,7 +59,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   }
 
   return (
-    <Card className="h-[90px] w-full">
+    <Card className="h-[90px] w-full" ref={onCardVisible}>
       <Form {...issueForm}>
         <form onSubmit={issueForm.handleSubmit(onSubmit)} ref={ref}>
           <FormField
