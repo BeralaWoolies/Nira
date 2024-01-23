@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { createIssue } from "@/actions/kanban-board";
 import toastKanbanResponse from "@/utils/toast-responses";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
 
 interface CreateIssueFormProps {
   columnId: string;
@@ -20,6 +21,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   console.log("Rendered form", columnId);
   const [editingMode, setEditingMode] = useState(false);
   const ref = useRef<HTMLFormElement>(null);
+  const onCardVisible = useScrollIntoView();
 
   const issueForm = useForm<TIssueForm>({
     resolver: zodResolver(issueFormSchema),
@@ -27,10 +29,6 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
       title: "",
     },
   });
-
-  const onCardVisible = useCallback((cardRef: HTMLDivElement) => {
-    cardRef?.scrollIntoView();
-  }, []);
 
   function onKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Enter") {

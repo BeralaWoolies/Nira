@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, PlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import { createColumn } from "@/actions/kanban-board";
 import toastKanbanResponse from "@/utils/toast-responses";
+import useScrollIntoView from "@/hooks/useScrollIntoView";
 
 interface CreateColumnForm {
   boardId: string;
@@ -21,6 +22,8 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
 
   const [editingMode, setEditingMode] = useState(false);
   const ref = useRef<HTMLFormElement>(null);
+  const onColumnVisible = useScrollIntoView();
+
   const columnForm = useForm<TColumnForm>({
     resolver: zodResolver(columnFormSchema),
     defaultValues: {
@@ -39,7 +42,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
         <TooltipTrigger asChild>
           <Button
             variant="secondary"
-            size="icon"
+            size="sm"
             onClick={() => {
               setEditingMode(true);
               columnForm.reset();
@@ -56,7 +59,10 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
   }
 
   return (
-    <div className="group mb-4 mr-4 flex max-h-[78dvh] min-h-[540px] min-w-[270px] flex-col rounded-sm bg-secondary p-1 shadow-md">
+    <div
+      className="group mb-4 mr-4 flex max-h-[78dvh] min-h-[540px] min-w-[270px] flex-col rounded-sm bg-secondary p-1 shadow-md"
+      ref={onColumnVisible}
+    >
       <Form {...columnForm}>
         <form onSubmit={columnForm.handleSubmit(onSubmit)} ref={ref}>
           <FormField
