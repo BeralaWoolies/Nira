@@ -17,29 +17,34 @@ export default function Column({ column, index }: ColumnProps) {
     <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
       {(draggableProvided) => (
         <div
-          className="group mr-4 h-[540px] w-[270px] rounded-md bg-secondary shadow-md"
+          className="group mr-4 flex max-h-[80dvh] min-h-[540px] min-w-[270px] flex-col rounded-md bg-secondary shadow-md"
           ref={draggableProvided.innerRef}
           {...draggableProvided.draggableProps}
         >
-          <div {...draggableProvided.dragHandleProps} className="flex items-center py-2 pl-1">
+          <div
+            {...draggableProvided.dragHandleProps}
+            className="flex items-center rounded-t-md py-2 pl-1 shadow-md"
+          >
             <DragHandleDots2Icon className="mr-1 h-4 w-4" />
             <h1 className="text-sm">{column.title}</h1>
           </div>
-          <Droppable droppableId={column.id} type="issue" direction="vertical">
-            {(droppableProvided) => (
-              <ol
-                ref={droppableProvided.innerRef}
-                {...droppableProvided.droppableProps}
-                className="flex h-full w-full flex-col items-center p-1"
-              >
-                {column.expand?.issues.map((issue, index) => (
-                  <IssueCard key={issue.id} issue={issue} index={index} />
-                ))}
-                {droppableProvided.placeholder}
-                <CreateIssueForm columnId={column.id} />
-              </ol>
-            )}
-          </Droppable>
+          <div className="overflow-y-auto">
+            <Droppable droppableId={column.id} type="issue" direction="vertical">
+              {(droppableProvided) => (
+                <ol
+                  ref={droppableProvided.innerRef}
+                  {...droppableProvided.droppableProps}
+                  className="flex w-full flex-col items-center p-1"
+                >
+                  {column.expand?.issues.map((issue, index) => (
+                    <IssueCard key={issue.id} issue={issue} index={index} />
+                  ))}
+                  {droppableProvided.placeholder}
+                  <CreateIssueForm columnId={column.id} />
+                </ol>
+              )}
+            </Droppable>
+          </div>
         </div>
       )}
     </Draggable>

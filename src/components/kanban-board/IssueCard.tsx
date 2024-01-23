@@ -18,7 +18,7 @@ export default function IssueCard({ issue, index }: IssueCardProps) {
           {...draggableProvided.draggableProps}
           {...draggableProvided.dragHandleProps}
           ref={draggableProvided.innerRef}
-          className="mb-1 h-[90px] w-[260px] rounded-md border-none"
+          className="mb-1 h-[90px] w-[260px] rounded-sm border-none"
         >
           <CardHeader className="p-2 text-sm">{issue.title}</CardHeader>
         </Card>
