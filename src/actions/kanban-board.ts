@@ -79,7 +79,7 @@ export async function updateIssuesOrderBetween(
 
     revalidatePath(headers().get("referer") || "");
     return {
-      success: `Successfully moved issue to "${sourceColumn.title}"`,
+      success: `Successfully moved issue to "${destColumn.title}"`,
     };
   } catch (error) {
     return {

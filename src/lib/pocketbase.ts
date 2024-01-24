@@ -60,5 +60,5 @@ export function createFileUrl({
   recordId: string;
   filename: string;
 }) {
-  return `${process.env.NEXT_PUBLIC_POCKETBASE_API_URL}api/files/${collectionId}/${recordId}/${filename}`;
+  return `${process.env.NEXT_PUBLIC_POCKETBASE_API_URL}/api/files/${collectionId}/${recordId}/${filename}`;
 }
