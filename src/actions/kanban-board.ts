@@ -63,17 +63,19 @@ export async function updateIssuesOrder(column: TColumn): Promise<KanbanResponse
 
 export async function updateIssuesOrderBetween(
   sourceColumn: TColumn,
-  destColumn: TColumn
+  destColumn: TColumn,
+  destIndex: number
 ): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/update/issues-between", {
-      method: "POST",
+      method: "PUT",
       body: {
         sourceColumnId: sourceColumn.id,
         sourceColumnIssueIds: sourceColumn.expand!.issues.map((issue) => issue.id),
         destColumnId: destColumn.id,
         destColumnIssueIds: destColumn.expand!.issues.map((issue) => issue.id),
+        destIndex: destIndex,
       },
     });
 

@@ -7,6 +7,7 @@ routerAdd("PUT", "/api/nira/update/issues-between", (c) => {
     sourceColumnIssueIds: [],
     destColumnId: "",
     destColumnIssueIds: [],
+    destIndex: 0,
   });
   c.bind(data);
 
@@ -18,6 +19,11 @@ routerAdd("PUT", "/api/nira/update/issues-between", (c) => {
       sourceColumnRecord.set("issues", data.sourceColumnIssueIds);
       destColumnRecord.set("issues", data.destColumnIssueIds);
 
+      const movedIssueId = data.destColumnIssueIds[data.destIndex];
+      const movedIssueRecord = txDao.findRecordById("issues", movedIssueId);
+      movedIssueRecord.set("column", data.destColumnId);
+
+      txDao.saveRecord(movedIssueRecord);
       txDao.saveRecord(sourceColumnRecord);
       txDao.saveRecord(destColumnRecord);
     });

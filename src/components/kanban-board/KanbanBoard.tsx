@@ -106,7 +106,11 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
 
     setColumns(newColumns);
     toastKanbanResponse(
-      await updateIssuesOrderBetween(newColumns[sourceColumnIndex], newColumns[destColumnIndex])
+      await updateIssuesOrderBetween(
+        newColumns[sourceColumnIndex],
+        newColumns[destColumnIndex],
+        destIndex
+      )
     );
   }
 
@@ -124,7 +128,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
           <div
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
-            className="flex overflow-x-auto"
+            className="flex h-[72dvh] min-h-[540px] overflow-x-auto"
           >
             {columns.map((col, index) => (
               <Column key={col.id} column={col} index={index} />
