@@ -15,26 +15,28 @@ onRecordBeforeCreateRequest((e) => {
 
   try {
     $app.dao().runInTransaction((txDao) => {
+      txDao.saveRecord(projectRecord);
+      const boardRecord = new Record(boardsCollection, {
+        project: [projectRecord.getId()],
+      });
+      txDao.saveRecord(boardRecord);
+      projectRecord.set("board", boardRecord.getId());
+
       const columnTitles = ["To-Do", "In Progress", "Done"];
       const columnRecordIds = [];
 
       for (const title of columnTitles) {
         const columnRecord = new Record(columnsCollection, {
           title: title,
+          board: boardRecord.getId(),
         });
 
         txDao.saveRecord(columnRecord);
         columnRecordIds.push(columnRecord.getId());
       }
 
-      txDao.saveRecord(projectRecord);
-      const boardRecord = new Record(boardsCollection, {
-        columns: columnRecordIds,
-        project: [projectRecord.getId()],
-      });
+      boardRecord.set("columns", columnRecordIds);
       txDao.saveRecord(boardRecord);
-
-      projectRecord.set("board", boardRecord.getId());
     });
   } catch (error) {
     throw new ApiError(500, "project could not be created");

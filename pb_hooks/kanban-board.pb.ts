@@ -1,7 +1,7 @@
 /// <reference path="../pb_data/types.d.ts" />
 // @ts-nocheck
 
-routerAdd("POST", "/api/nira/update/issues-between", (c) => {
+routerAdd("PUT", "/api/nira/update/issues-between", (c) => {
   const data = new DynamicModel({
     sourceColumnId: "",
     sourceColumnIssueIds: [],
@@ -46,6 +46,7 @@ routerAdd("POST", "/api/nira/issue", (c) => {
     $app.dao().runInTransaction((txDao) => {
       const issueRecord = new Record(issuesCollection, {
         title: data.title,
+        column: data.columnId,
       });
       txDao.saveRecord(issueRecord);
 
@@ -57,7 +58,7 @@ routerAdd("POST", "/api/nira/issue", (c) => {
       txDao.saveRecord(columnRecord);
     });
   } catch (error) {
-    throw new ApiError(500, `Could not create issue in column: ${columnId}`);
+    throw new ApiError(500, `Could not create issue in column: ${data.columnId}`);
   }
 
   return c.json(200, {
@@ -78,6 +79,7 @@ routerAdd("POST", "/api/nira/column", (c) => {
     $app.dao().runInTransaction((txDao) => {
       const columnRecord = new Record(columnsCollection, {
         title: data.title,
+        board: data.boardId,
       });
       txDao.saveRecord(columnRecord);
 

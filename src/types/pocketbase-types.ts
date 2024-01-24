@@ -43,11 +43,13 @@ export type BoardsRecord = {
 }
 
 export type ColumnsRecord = {
+	board: RecordIdString
 	issues?: RecordIdString[]
 	title: string
 }
 
 export type IssuesRecord = {
+	column: RecordIdString
 	description?: string
 	title: string
 }
