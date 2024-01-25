@@ -60,7 +60,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
 
   return (
     <div
-      className="group mb-4 mr-4 flex max-h-[78dvh] min-h-[540px] min-w-[270px] flex-col rounded-sm bg-secondary p-1 shadow-md"
+      className="mb-2 mr-4 min-w-[17rem] flex-col rounded-sm bg-secondary p-1 shadow-md"
       ref={onColumnVisible}
     >
       <Form {...columnForm}>

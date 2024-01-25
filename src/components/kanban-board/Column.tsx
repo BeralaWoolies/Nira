@@ -19,7 +19,7 @@ const Column = React.memo(
       <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
         {(draggableProvided) => (
           <div
-            className="group mb-2 mr-4 flex min-w-[270px] flex-col rounded-sm bg-secondary shadow-md"
+            className="group/[issue-form] mb-2 mr-4 flex min-w-[17rem] flex-col rounded-sm bg-secondary shadow-md"
             ref={draggableProvided.innerRef}
             {...draggableProvided.draggableProps}
           >

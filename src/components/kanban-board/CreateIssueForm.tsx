@@ -46,7 +46,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   if (!editingMode) {
     return (
       <Button
-        className="invisible w-full rounded-sm opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover:visible group-hover:opacity-100"
+        className="invisible w-full rounded-sm opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover/[issue-form]:visible group-hover/[issue-form]:opacity-100"
         variant="ghost"
         onClick={() => setEditingMode(true)}
       >
@@ -57,7 +57,10 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   }
 
   return (
-    <Card className="h-[90px] w-full" ref={onCardVisible}>
+    <Card
+      className="min-h-[6rem] w-full rounded-sm border-none ring-2 ring-accent-foreground"
+      ref={onCardVisible}
+    >
       <Form {...issueForm}>
         <form onSubmit={issueForm.handleSubmit(onSubmit)} ref={ref}>
           <FormField

@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/pocketbase";
 import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
-import { Collections } from "@/types/pocketbase-types";
+import { Collections, IssuesResponse } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 
@@ -32,7 +32,7 @@ export async function updateColumnsOrder(
 
     revalidatePath(headers().get("referer") || "");
     return {
-      success: "Swapped columns successfully",
+      success: "Reordered columns successfully",
     };
   } catch (error) {
     return {
@@ -52,7 +52,7 @@ export async function updateIssuesOrder(column: TColumn): Promise<KanbanResponse
 
     revalidatePath(headers().get("referer") || "");
     return {
-      success: `Swapped issues successfully in "${column.title}"`,
+      success: `Reordered issues successfully in "${column.title}"`,
     };
   } catch (error) {
     return {
@@ -130,6 +130,22 @@ export async function createColumn(boardId: string, values: TColumnForm): Promis
   } catch (error) {
     return {
       error: `Could not create new column "${values.title}"`,
+    };
+  }
+}
+
+export async function deleteIssue(issue: IssuesResponse): Promise<KanbanResponse> {
+  try {
+    const pb = createServerClient(cookies());
+    await pb.collection(Collections.Issues).delete(issue.id);
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully deleted issue "${issue.title}"`,
+    };
+  } catch (error) {
+    return {
+      error: `Could not delete issue "${issue.title}"`,
     };
   }
 }
