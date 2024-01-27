@@ -81,7 +81,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
               </FormItem>
             )}
           />
-          <EditingControl setEditingMode={setEditingMode} />
+          <EditingControl closeEditingMode={() => setEditingMode(false)} />
         </form>
       </Form>
     </div>

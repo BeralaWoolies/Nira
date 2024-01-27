@@ -23,10 +23,10 @@ import { IssuesResponse } from "@/types/pocketbase-types";
 
 interface IssueContextMenuProps {
   issue: IssuesResponse;
-  setEditingMode: (editingMode: boolean) => void;
+  openEditingMode: () => void;
 }
 
-export default function IssueContextMenu({ issue, setEditingMode }: IssueContextMenuProps) {
+export default function IssueContextMenu({ issue, openEditingMode }: IssueContextMenuProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -36,7 +36,7 @@ export default function IssueContextMenu({ issue, setEditingMode }: IssueContext
           <Pencil1Icon className="mt-[0.1rem] min-h-4 min-w-4 rounded-full opacity-0 hover:ring-4 hover:ring-accent-foreground/20 group-hover/issue:opacity-100" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="absolute bottom-0 left-6">
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setEditingMode(true)}>
+          <DropdownMenuItem className="cursor-pointer" onClick={openEditingMode}>
             Edit
           </DropdownMenuItem>
           <DialogTrigger asChild>

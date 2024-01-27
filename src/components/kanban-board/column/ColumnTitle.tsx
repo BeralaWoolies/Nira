@@ -35,5 +35,5 @@ export default function ColumnTitle({ column }: ColumnTitleProps) {
     );
   }
 
-  return <EditColumnTitleForm column={column} setEditingMode={setEditingMode} />;
+  return <EditColumnTitleForm column={column} closeEditingMode={() => setEditingMode(false)} />;
 }

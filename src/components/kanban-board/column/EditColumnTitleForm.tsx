@@ -13,10 +13,13 @@ import { TColumn } from "@/types/boards-types";
 
 interface EditColumnTitleFormProps {
   column: TColumn;
-  setEditingMode: (editingMode: boolean) => void;
+  closeEditingMode: () => void;
 }
 
-export default function EditColumnTitleForm({ column, setEditingMode }: EditColumnTitleFormProps) {
+export default function EditColumnTitleForm({
+  column,
+  closeEditingMode,
+}: EditColumnTitleFormProps) {
   const columnForm = useForm<TColumnForm>({
     resolver: zodResolver(columnFormSchema),
     defaultValues: {
@@ -32,7 +35,7 @@ export default function EditColumnTitleForm({ column, setEditingMode }: EditColu
 
   async function onSubmit(values: TColumnForm) {
     toastKanbanResponse(await updateColumn(column, values));
-    setEditingMode(false);
+    closeEditingMode();
   }
 
   return (
@@ -47,7 +50,7 @@ export default function EditColumnTitleForm({ column, setEditingMode }: EditColu
                 <Input
                   {...field}
                   autoFocus
-                  onBlur={() => setEditingMode(false)}
+                  onBlur={closeEditingMode}
                   className="h-[1.95rem] w-full rounded-sm border-none bg-background shadow-none focus-visible:ring-2"
                 />
               </FormControl>
@@ -55,7 +58,7 @@ export default function EditColumnTitleForm({ column, setEditingMode }: EditColu
           )}
         />
         <div className="absolute right-0">
-          <EditingControl setEditingMode={setEditingMode} />
+          <EditingControl closeEditingMode={closeEditingMode} />
         </div>
       </form>
     </Form>

@@ -16,10 +16,10 @@ export default function IssueTitle({ issue }: IssueTitleProps) {
     return (
       <>
         <h1 className="line break-all text-sm hover:underline">{issue.title}</h1>
-        <IssueContextMenu issue={issue} setEditingMode={setEditingMode} />
+        <IssueContextMenu issue={issue} openEditingMode={() => setEditingMode(true)} />
       </>
     );
   }
 
-  return <EditIssueTitleForm issue={issue} setEditingMode={setEditingMode} />;
+  return <EditIssueTitleForm issue={issue} closeEditingMode={() => setEditingMode(false)} />;
 }

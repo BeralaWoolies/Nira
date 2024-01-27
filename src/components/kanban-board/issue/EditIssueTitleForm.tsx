@@ -14,10 +14,10 @@ import EditingControl from "@/components/kanban-board/EditingControl";
 
 interface EditIssueTitleFormProps {
   issue: IssuesResponse;
-  setEditingMode: (editingMode: boolean) => void;
+  closeEditingMode: () => void;
 }
 
-export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueTitleFormProps) {
+export default function EditIssueTitleForm({ issue, closeEditingMode }: EditIssueTitleFormProps) {
   const [ref, onKeyDown] = useSubmitOnKey();
 
   const issueForm = useForm<TIssueForm>({
@@ -35,7 +35,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
 
   async function onSubmit(values: TIssueForm) {
     toastKanbanResponse(await updateIssue(issue, values));
-    setEditingMode(false);
+    closeEditingMode();
   }
 
   return (
@@ -58,7 +58,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
                   {...field}
                   autoFocus
                   onBlur={() => {
-                    setEditingMode(false);
+                    closeEditingMode();
                     issueForm.reset();
                   }}
                 />
@@ -66,7 +66,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
             </FormItem>
           )}
         />
-        <EditingControl setEditingMode={setEditingMode} />
+        <EditingControl closeEditingMode={closeEditingMode} />
       </form>
     </Form>
   );

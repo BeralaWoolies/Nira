@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 
 interface EditingControlProps {
-  setEditingMode: (editingMode: boolean) => void;
+  closeEditingMode: () => void;
 }
 
-export default function EditingControl({ setEditingMode }: EditingControlProps) {
+export default function EditingControl({ closeEditingMode }: EditingControlProps) {
   return (
     <div className="flex justify-end gap-2">
       <Button
@@ -25,7 +25,7 @@ export default function EditingControl({ setEditingMode }: EditingControlProps) 
         variant="secondary"
         size="icon"
         className="bg-primary-foreground shadow-lg"
-        onClick={() => setEditingMode(false)}
+        onClick={closeEditingMode}
       >
         <Cross2Icon className="h-5 w-5" />
       </Button>
