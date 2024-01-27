@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, PlusIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -22,7 +22,6 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
   console.log("Column form rendered");
 
   const [editingMode, setEditingMode] = useState(false);
-  const ref = useRef<HTMLFormElement>(null);
   const onColumnVisible = useScrollIntoView();
 
   const columnForm = useForm<TColumnForm>({
@@ -65,7 +64,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
       ref={onColumnVisible}
     >
       <Form {...columnForm}>
-        <form onSubmit={columnForm.handleSubmit(onSubmit)} ref={ref} className="space-y-2">
+        <form onSubmit={columnForm.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={columnForm.control}
             name="title"

@@ -3,10 +3,10 @@
 import { TColumn } from "@/types/boards-types";
 import React from "react";
 import IssueCard from "@/components/kanban-board/IssueCard";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import CreateIssueForm from "@/components/kanban-board/CreateIssueForm";
 import isEqual from "react-fast-compare";
+import ColumnTitle from "@/components/kanban-board/ColumnTitle";
 
 interface ColumnProps {
   column: TColumn;
@@ -20,16 +20,12 @@ const Column = React.memo(
       <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
         {(draggableProvided) => (
           <div
-            className="group/[issue-form] mb-2 mr-4 flex min-w-[17rem] max-w-[17rem] flex-col rounded-sm bg-secondary shadow-md"
+            className="group/[issue-form] group/[delete-form] mb-2 mr-4 flex min-w-[17rem] max-w-[17rem] flex-col rounded-sm bg-secondary shadow-md"
             ref={draggableProvided.innerRef}
             {...draggableProvided.draggableProps}
           >
-            <div
-              className="flex items-center rounded-t-sm py-2 pl-1 shadow-sm"
-              {...draggableProvided.dragHandleProps}
-            >
-              <DragHandleDots2Icon className="mr-1 h-4 w-4" />
-              <h1 className="text-sm">{column.title}</h1>
+            <div className="rounded-t-sm p-2 shadow-sm" {...draggableProvided.dragHandleProps}>
+              <ColumnTitle column={column} />
             </div>
             <div className="overflow-y-auto">
               <Droppable droppableId={column.id} type="issue" direction="vertical">

@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/pocketbase";
 import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
-import { Collections, IssuesResponse } from "@/types/pocketbase-types";
+import { Collections, ColumnsResponse, IssuesResponse } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 
@@ -162,6 +162,22 @@ export async function updateIssue(issue: IssuesResponse, values: TIssueForm) {
   } catch (error) {
     return {
       error: `Could not edit issue "${issue.title}"`,
+    };
+  }
+}
+
+export async function updateColumn(column: ColumnsResponse, values: TColumnForm) {
+  try {
+    const pb = createServerClient(cookies());
+    const updatedColumn = await pb.collection(Collections.Columns).update(column.id, values);
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully edited column "${updatedColumn.title}"`,
+    };
+  } catch (error) {
+    return {
+      error: `Could not edit column "${column.title}"`,
     };
   }
 }

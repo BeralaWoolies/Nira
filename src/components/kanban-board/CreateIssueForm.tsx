@@ -40,11 +40,11 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   if (!editingMode) {
     return (
       <Button
-        className="invisible w-full rounded-sm opacity-0 transition-opacity duration-500 hover:bg-accent-foreground/10 group-hover/[issue-form]:visible group-hover/[issue-form]:opacity-100"
+        className="w-full justify-start rounded-sm p-0 pl-1 opacity-0 transition-all hover:bg-accent-foreground/10 group-hover/[issue-form]:opacity-100"
         variant="ghost"
         onClick={() => setEditingMode(true)}
       >
-        <PlusIcon className="h-5 w-5" />
+        <PlusIcon className="mr-1 h-5 w-5" />
         Create issue
       </Button>
     );
