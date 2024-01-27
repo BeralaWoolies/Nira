@@ -10,6 +10,7 @@ import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { updateIssue } from "@/actions/kanban-board";
 import { IssuesResponse } from "@/types/pocketbase-types";
 import toastKanbanResponse from "@/utils/toast-responses";
+import EditingControl from "@/components/kanban-board/EditingControl";
 
 interface EditIssueTitleFormProps {
   issue: IssuesResponse;
@@ -43,7 +44,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
         onSubmit={issueForm.handleSubmit(onSubmit)}
         ref={ref}
         onKeyDown={onKeyDown}
-        className="w-full"
+        className="w-full space-y-2"
       >
         <FormField
           control={issueForm.control}
@@ -53,7 +54,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
               <FormControl>
                 <Textarea
                   spellCheck={false}
-                  className="resize-none border-none shadow-none ring-2 ring-accent-foreground"
+                  className="resize-none border-none bg-background shadow-none ring-2 ring-accent-foreground"
                   {...field}
                   autoFocus
                   onBlur={() => {
@@ -65,6 +66,7 @@ export default function EditIssueTitleForm({ issue, setEditingMode }: EditIssueT
             </FormItem>
           )}
         />
+        <EditingControl setEditingMode={setEditingMode} />
       </form>
     </Form>
   );

@@ -12,6 +12,7 @@ import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import { createColumn } from "@/actions/kanban-board";
 import toastKanbanResponse from "@/utils/toast-responses";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
+import EditingControl from "@/components/kanban-board/EditingControl";
 
 interface CreateColumnForm {
   boardId: string;
@@ -64,7 +65,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
       ref={onColumnVisible}
     >
       <Form {...columnForm}>
-        <form onSubmit={columnForm.handleSubmit(onSubmit)} ref={ref}>
+        <form onSubmit={columnForm.handleSubmit(onSubmit)} ref={ref} className="space-y-2">
           <FormField
             control={columnForm.control}
             name="title"
@@ -81,25 +82,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
               </FormItem>
             )}
           />
-          <div className="mt-2 flex justify-end gap-2">
-            <Button
-              variant="secondary"
-              size="icon"
-              className="bg-primary-foreground shadow-lg"
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              <CheckIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              size="icon"
-              className="bg-primary-foreground shadow-lg"
-              onClick={() => setEditingMode(false)}
-            >
-              <Cross2Icon className="h-5 w-5" />
-            </Button>
-          </div>
+          <EditingControl setEditingMode={setEditingMode} />
         </form>
       </Form>
     </div>
