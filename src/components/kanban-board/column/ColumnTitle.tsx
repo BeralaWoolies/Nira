@@ -1,13 +1,13 @@
 "use client";
 
-import { ColumnsResponse } from "@/types/pocketbase-types";
 import React, { useState } from "react";
-import EditColumnTitleForm from "@/components/kanban-board/EditColumnTitleForm";
+import EditColumnTitleForm from "@/components/kanban-board/column/EditColumnTitleForm";
 import { DotsHorizontalIcon, DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { TColumn } from "@/types/boards-types";
 
 interface ColumnTitleProps {
-  column: ColumnsResponse;
+  column: TColumn;
 }
 
 export default function ColumnTitle({ column }: ColumnTitleProps) {

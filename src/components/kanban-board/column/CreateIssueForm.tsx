@@ -6,7 +6,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import { Form, FormControl, FormField, FormItem } from "../../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { createIssue } from "@/actions/kanban-board";

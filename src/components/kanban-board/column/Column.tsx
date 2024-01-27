@@ -2,11 +2,11 @@
 
 import { TColumn } from "@/types/boards-types";
 import React from "react";
-import IssueCard from "@/components/kanban-board/IssueCard";
+import IssueCard from "@/components/kanban-board/issue/IssueCard";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import CreateIssueForm from "@/components/kanban-board/CreateIssueForm";
+import CreateIssueForm from "@/components/kanban-board/column/CreateIssueForm";
 import isEqual from "react-fast-compare";
-import ColumnTitle from "@/components/kanban-board/ColumnTitle";
+import ColumnTitle from "@/components/kanban-board/column/ColumnTitle";
 
 interface ColumnProps {
   column: TColumn;

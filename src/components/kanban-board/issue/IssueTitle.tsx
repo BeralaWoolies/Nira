@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { IssuesResponse } from "@/types/pocketbase-types";
-import EditIssueTitleForm from "@/components/kanban-board/EditIssueTitleForm";
-import IssueContextMenu from "@/components/kanban-board/IssueContextMenu";
+import EditIssueTitleForm from "@/components/kanban-board/issue/EditIssueTitleForm";
+import IssueContextMenu from "@/components/kanban-board/issue/IssueContextMenu";
 
 interface IssueTitleProps {
   issue: IssuesResponse;

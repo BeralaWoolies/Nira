@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { ColumnsResponse } from "@/types/pocketbase-types";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,9 +9,10 @@ import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import toastKanbanResponse from "@/utils/toast-responses";
 import EditingControl from "@/components/kanban-board/EditingControl";
 import { updateColumn } from "@/actions/kanban-board";
+import { TColumn } from "@/types/boards-types";
 
 interface EditColumnTitleFormProps {
-  column: ColumnsResponse;
+  column: TColumn;
   setEditingMode: (editingMode: boolean) => void;
 }
 

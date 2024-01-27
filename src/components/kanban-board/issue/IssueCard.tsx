@@ -4,7 +4,7 @@ import { IssuesResponse } from "@/types/pocketbase-types";
 import React from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Draggable } from "@hello-pangea/dnd";
-import IssueTitle from "@/components/kanban-board/IssueTitle";
+import IssueTitle from "@/components/kanban-board/issue/IssueTitle";
 import isEqual from "react-fast-compare";
 
 interface IssueCardProps {
