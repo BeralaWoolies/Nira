@@ -149,3 +149,19 @@ export async function deleteIssue(issue: IssuesResponse): Promise<KanbanResponse
     };
   }
 }
+
+export async function updateIssue(issue: IssuesResponse, values: TIssueForm) {
+  try {
+    const pb = createServerClient(cookies());
+    const updatedIssue = await pb.collection(Collections.Issues).update(issue.id, values);
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully edited issue "${updatedIssue.title}"`,
+    };
+  } catch (error) {
+    return {
+      error: `Could not edit issue "${issue.title}"`,
+    };
+  }
+}

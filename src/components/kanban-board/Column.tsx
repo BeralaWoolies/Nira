@@ -15,11 +15,12 @@ interface ColumnProps {
 
 const Column = React.memo(
   function Column({ column, index }: ColumnProps) {
+    console.log(`${column.title} rendered`);
     return (
       <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
         {(draggableProvided) => (
           <div
-            className="group/[issue-form] mb-2 mr-4 flex min-w-[17rem] flex-col rounded-sm bg-secondary shadow-md"
+            className="group/[issue-form] mb-2 mr-4 flex min-w-[17rem] max-w-[17rem] flex-col rounded-sm bg-secondary shadow-md"
             ref={draggableProvided.innerRef}
             {...draggableProvided.draggableProps}
           >

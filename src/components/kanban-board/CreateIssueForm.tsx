@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +12,7 @@ import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { createIssue } from "@/actions/kanban-board";
 import toastKanbanResponse from "@/utils/toast-responses";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
+import useSubmitOnKey from "@/hooks/useSubmitOnKey";
 
 interface CreateIssueFormProps {
   columnId: string;
@@ -20,7 +21,7 @@ interface CreateIssueFormProps {
 const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: CreateIssueFormProps) {
   console.log("Rendered form", columnId);
   const [editingMode, setEditingMode] = useState(false);
-  const ref = useRef<HTMLFormElement>(null);
+  const [ref, onKeyDown] = useSubmitOnKey();
   const onCardVisible = useScrollIntoView();
 
   const issueForm = useForm<TIssueForm>({
@@ -29,13 +30,6 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
       title: "",
     },
   });
-
-  function onKeyDown(event: React.KeyboardEvent) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      ref.current?.requestSubmit();
-    }
-  }
 
   async function onSubmit(values: TIssueForm) {
     toastKanbanResponse(await createIssue(columnId, values));
@@ -62,7 +56,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
       ref={onCardVisible}
     >
       <Form {...issueForm}>
-        <form onSubmit={issueForm.handleSubmit(onSubmit)} ref={ref}>
+        <form onSubmit={issueForm.handleSubmit(onSubmit)} ref={ref} onKeyDown={onKeyDown}>
           <FormField
             control={issueForm.control}
             name="title"
@@ -74,7 +68,6 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
                     className="resize-none border-none shadow-none focus-visible:ring-0"
                     {...field}
                     autoFocus
-                    onKeyDown={onKeyDown}
                     onBlur={() => setEditingMode(false)}
                   />
                 </FormControl>
