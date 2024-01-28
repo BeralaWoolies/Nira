@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import EditColumnTitleForm from "@/components/kanban-board/column/EditColumnTitleForm";
-import { DotsHorizontalIcon, DragHandleDots2Icon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { TColumn } from "@/types/boards-types";
+import ColumnContextMenu from "./ColumnContextMenu";
 
 interface ColumnTitleProps {
   column: TColumn;
@@ -25,12 +25,7 @@ export default function ColumnTitle({ column }: ColumnTitleProps) {
             <h1 className="text-sm">{column.title}</h1>
           </div>
         </div>
-        <Button
-          className="h-6 w-6 justify-center rounded-sm p-1 opacity-0 hover:bg-accent-foreground/10 group-hover/[delete-form]:opacity-100"
-          variant="ghost"
-        >
-          <DotsHorizontalIcon className="h-4 w-4 cursor-pointer" />
-        </Button>
+        <ColumnContextMenu column={column} />
       </div>
     );
   }

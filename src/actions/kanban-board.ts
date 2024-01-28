@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/pocketbase";
 import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
-import { Collections, ColumnsResponse, IssuesResponse } from "@/types/pocketbase-types";
+import { Collections, IssuesResponse } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 
@@ -166,7 +166,7 @@ export async function updateIssue(issue: IssuesResponse, values: TIssueForm) {
   }
 }
 
-export async function updateColumn(column: ColumnsResponse, values: TColumnForm) {
+export async function updateColumn(column: TColumn, values: TColumnForm) {
   try {
     const pb = createServerClient(cookies());
     const updatedColumn = await pb.collection(Collections.Columns).update(column.id, values);
@@ -178,6 +178,22 @@ export async function updateColumn(column: ColumnsResponse, values: TColumnForm)
   } catch (error) {
     return {
       error: `Could not edit column "${column.title}"`,
+    };
+  }
+}
+
+export async function deleteColumn(column: TColumn) {
+  try {
+    const pb = createServerClient(cookies());
+    await pb.collection(Collections.Columns).delete(column.id);
+
+    revalidatePath(headers().get("referer") || "");
+    return {
+      success: `Successfully deleted column "${column.title}"`,
+    };
+  } catch (error) {
+    return {
+      error: `Could not delete column "${column.title}"`,
     };
   }
 }
