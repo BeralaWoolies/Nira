@@ -88,3 +88,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.tiptap .is-editor-empty:first-child::before {
+  color: #888;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
