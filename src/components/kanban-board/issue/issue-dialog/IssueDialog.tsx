@@ -2,8 +2,9 @@
 
 import { IssuesResponse } from "@/types/pocketbase-types";
 import React from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import IssueDescription from "@/components/kanban-board/issue/issue-dialog/IssueDescription";
+import IssueDialogTitle from "@/components/kanban-board/issue/issue-dialog/IssueDialogTitle";
 
 interface IssueDialogProps {
   issue: IssuesResponse;
@@ -20,9 +21,7 @@ export default function IssueDialog({ issue, open, closeDialog }: IssueDialogPro
             <div className="w-fit rounded-sm p-2 hover:bg-accent-foreground/10">
               <p className="text-sm">{`Issue-${issue.id}`}</p>
             </div>
-            <DialogTitle className="rounded-sm p-2 text-2xl hover:cursor-text hover:bg-accent-foreground/10">
-              {issue.title}
-            </DialogTitle>
+            <IssueDialogTitle issue={issue} />
             <div className="flex flex-1 flex-col gap-1">
               <h2 className="mb-1 pl-2 font-semibold">Description</h2>
               <IssueDescription issue={issue} />

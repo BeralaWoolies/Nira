@@ -4,7 +4,7 @@ import { IssuesResponse } from "@/types/pocketbase-types";
 import React, { useState } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Draggable } from "@hello-pangea/dnd";
-import IssueTitle from "@/components/kanban-board/issue/IssueTitle";
+import IssueCardTitle from "@/components/kanban-board/issue/IssueCardTitle";
 import isEqual from "react-fast-compare";
 import IssueDialog from "@/components/kanban-board/issue/issue-dialog/IssueDialog";
 
@@ -31,7 +31,7 @@ const IssueCard = React.memo(
             >
               <CardHeader className="w-full p-2">
                 <div className="flex gap-2">
-                  <IssueTitle issue={issue} />
+                  <IssueCardTitle issue={issue} />
                 </div>
               </CardHeader>
             </Card>

@@ -5,12 +5,13 @@ import { IssuesResponse } from "@/types/pocketbase-types";
 import EditIssueTitleForm from "@/components/kanban-board/issue/EditIssueTitleForm";
 import IssueContextMenu from "@/components/kanban-board/issue/IssueContextMenu";
 import PropagationWrapper from "@/components/PropagationWrapper";
+import { Textarea } from "@/components/ui/textarea";
 
 interface IssueTitleProps {
   issue: IssuesResponse;
 }
 
-export default function IssueTitle({ issue }: IssueTitleProps) {
+export default function IssueCardTitle({ issue }: IssueTitleProps) {
   const [editingMode, setEditingMode] = useState(false);
 
   if (!editingMode) {
@@ -26,7 +27,9 @@ export default function IssueTitle({ issue }: IssueTitleProps) {
 
   return (
     <PropagationWrapper className="w-full">
-      <EditIssueTitleForm issue={issue} closeEditingMode={() => setEditingMode(false)} />
+      <EditIssueTitleForm issue={issue} closeEditingMode={() => setEditingMode(false)}>
+        <Textarea className="resize-none border-none bg-background shadow-none ring-accent-foreground" />
+      </EditIssueTitleForm>
     </PropagationWrapper>
   );
 }
