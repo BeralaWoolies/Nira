@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Column from "@/components/kanban-board/column/Column";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { produce } from "immer";
-import CreateColumnForm from "@/components/kanban-board/column/CreateColumnForm";
+import CreateColumnForm from "@/components/kanban-board/CreateColumnForm";
 import {
   updateColumnsOrder,
   updateIssuesOrder,
