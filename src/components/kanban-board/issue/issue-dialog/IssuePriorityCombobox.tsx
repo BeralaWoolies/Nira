@@ -57,7 +57,7 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
           role="combobox"
           aria-expanded={popoverOpen}
           className={cn(
-            "justify-start gap-1 p-1 font-normal",
+            "justify-start gap-1 rounded-sm p-1 font-normal",
             currentPriority ? "w-[5.5rem]" : "w-fit"
           )}
         >
@@ -76,7 +76,7 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-[10rem] rounded-sm p-0" align="start">
         <IssuePriorityForm
           issue={issue}
           priorities={priorities}

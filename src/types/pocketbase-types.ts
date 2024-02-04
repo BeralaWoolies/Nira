@@ -55,11 +55,18 @@ export enum IssuesPriorityOptions {
 	"low" = "low",
 	"lowest" = "lowest",
 }
+
+export enum IssuesTypeOptions {
+	"task" = "task",
+	"bug" = "bug",
+	"story" = "story",
+}
 export type IssuesRecord = {
 	column: RecordIdString
 	description?: HTMLString
 	priority?: IssuesPriorityOptions
 	title: string
+	type?: IssuesTypeOptions
 }
 
 export type ProjectsRecord = {

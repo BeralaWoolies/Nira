@@ -5,12 +5,12 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, MessageCircleXIcon } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { IssuesResponse } from "@/types/pocketbase-types";
+import { IssueType } from "@/types/issue-types";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
-import { IssuesResponse } from "@/types/pocketbase-types";
-import { IssuePriority } from "@/types/issue-types";
 import {
   Command,
   CommandEmpty,
@@ -19,31 +19,31 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 
-interface IssuePriorityFormProps {
+interface IssueTypeFormProps {
   issue: IssuesResponse;
-  priorities: Array<{
-    value: IssuePriority;
+  issueTypes: Array<{
+    value: IssueType;
     label: string;
-    color: string;
+    icon: React.JSX.Element;
   }>;
-  currentPriority: string;
-  updatePriority: (newPriority: IssuePriority) => void;
+  currentIssueType: string;
+  updateIssueType: (newIssueType: IssueType) => void;
   closePopover: () => void;
 }
 
-export default function IssuePriorityForm({
+export default function IssueTypeForm({
   issue,
-  priorities,
-  currentPriority,
-  updatePriority,
+  issueTypes,
+  currentIssueType,
+  updateIssueType,
   closePopover,
-}: IssuePriorityFormProps) {
+}: IssueTypeFormProps) {
   const ref = useRef<HTMLFormElement | null>(null);
 
   const issueForm = useForm<TIssueForm>({
     resolver: zodResolver(issueFormSchema),
     defaultValues: {
-      priority: "",
+      type: issue.type,
     },
   });
 
@@ -56,34 +56,34 @@ export default function IssuePriorityForm({
       <form onSubmit={issueForm.handleSubmit(onSubmit)} ref={ref}>
         <FormField
           control={issueForm.control}
-          name="priority"
+          name="type"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Command>
                   <CommandInput placeholder="Search" />
-                  <CommandEmpty>No priority found.</CommandEmpty>
+                  <CommandEmpty>No issue type found.</CommandEmpty>
                   <CommandGroup>
-                    {priorities.map((p) => (
+                    {issueTypes.map((issueType) => (
                       <CommandItem
-                        key={p.value}
-                        value={p.value}
-                        onSelect={(newPriority) => {
-                          updatePriority(newPriority as IssuePriority);
+                        key={issueType.value}
+                        value={issueType.value}
+                        onSelect={(newIssueType) => {
+                          updateIssueType(newIssueType as IssueType);
                           closePopover();
-                          field.onChange(newPriority === currentPriority ? "" : newPriority);
+                          field.onChange(newIssueType);
                           ref?.current?.requestSubmit();
                         }}
                         className="flex justify-between rounded-sm"
                       >
                         <div className="flex items-center gap-2">
-                          <MessageCircleXIcon className={cn("h-4 w-4 shrink-0", p.color)} />
-                          {p.label}
+                          {issueType.icon}
+                          {issueType.label}
                         </div>
                         <Check
                           className={cn(
                             "h-4 w-4 shrink-0",
-                            currentPriority === p.value ? "opacity-100" : "opacity-0"
+                            currentIssueType === issueType.value ? "opacity-100" : "opacity-0"
                           )}
                         />
                       </CommandItem>

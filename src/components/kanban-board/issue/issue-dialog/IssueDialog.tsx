@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import IssueDescription from "@/components/kanban-board/issue/issue-dialog/IssueDescription";
 import IssueDialogTitle from "@/components/kanban-board/issue/issue-dialog/IssueDialogTitle";
 import { IssuePriorityCombobox } from "@/components/kanban-board/issue/issue-dialog/IssuePriorityCombobox";
+import { IssueTypeCombobox } from "@/components/kanban-board/issue/issue-dialog/IssueTypeCombobox";
 
 interface IssueDialogProps {
   issue: IssuesResponse;
@@ -18,10 +19,8 @@ export default function IssueDialog({ issue, open, closeDialog }: IssueDialogPro
     <Dialog open={open} onOpenChange={closeDialog}>
       <DialogContent className="h-[40rem] focus-visible:outline-none lg:min-w-[65rem]">
         <div className="grid grid-cols-5 gap-10 overflow-y-auto">
-          <div className="col-span-3 flex flex-col gap-4 overflow-y-auto px-2">
-            <div className="w-fit rounded-sm p-2 hover:bg-accent-foreground/10">
-              <p className="text-sm">{`Issue-${issue.id}`}</p>
-            </div>
+          <div className="col-span-3 flex flex-col gap-4 overflow-y-auto p-2">
+            <IssueTypeCombobox issue={issue} />
             <IssueDialogTitle issue={issue} />
             <div className="flex flex-1 flex-col gap-1">
               <h2 className="mb-1 pl-2 font-semibold">Description</h2>
@@ -29,7 +28,7 @@ export default function IssueDialog({ issue, open, closeDialog }: IssueDialogPro
             </div>
           </div>
           <div className="col-span-2">
-            <h2 className="mb-1 mt-16 pl-1 font-semibold">Priority</h2>
+            <h2 className="mb-1 mt-[4.5rem] pl-1 font-semibold">Priority</h2>
             <IssuePriorityCombobox issue={issue} />
           </div>
         </div>
