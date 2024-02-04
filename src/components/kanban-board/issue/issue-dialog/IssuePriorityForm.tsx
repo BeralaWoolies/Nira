@@ -24,7 +24,7 @@ interface IssuePriorityFormProps {
   priorities: Array<{
     value: IssuePriority;
     label: string;
-    color: string;
+    icon: React.JSX.Element;
   }>;
   currentPriority: string;
   updatePriority: (newPriority: IssuePriority) => void;
@@ -43,7 +43,7 @@ export default function IssuePriorityForm({
   const issueForm = useForm<TIssueForm>({
     resolver: zodResolver(issueFormSchema),
     defaultValues: {
-      priority: "",
+      priority: issue.priority,
     },
   });
 
@@ -77,7 +77,7 @@ export default function IssuePriorityForm({
                         className="flex justify-between rounded-sm"
                       >
                         <div className="flex items-center gap-2">
-                          <MessageCircleXIcon className={cn("h-4 w-4 shrink-0", p.color)} />
+                          {p.icon}
                           {p.label}
                         </div>
                         <Check

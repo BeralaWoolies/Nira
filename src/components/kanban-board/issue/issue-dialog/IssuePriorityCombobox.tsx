@@ -12,32 +12,32 @@ import { IssuePriority } from "@/types/issue-types";
 const priorities: Array<{
   value: IssuePriority;
   label: string;
-  color: string;
+  icon: React.JSX.Element;
 }> = [
   {
     value: "highest",
     label: "Highest",
-    color: "stroke-red-700",
+    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-red-700" />,
   },
   {
     value: "high",
     label: "High",
-    color: "stroke-red-500",
+    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-red-500" />,
   },
   {
     value: "medium",
     label: "Medium",
-    color: "stroke-orange-500",
+    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-orange-500" />,
   },
   {
     value: "low",
     label: "Low",
-    color: "stroke-green-600",
+    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-green-600" />,
   },
   {
     value: "lowest",
     label: "Lowest",
-    color: "stroke-green-500",
+    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-green-500" />,
   },
 ];
 
@@ -63,12 +63,7 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
         >
           {currentPriority ? (
             <>
-              <MessageCircleXIcon
-                className={cn(
-                  "h-4 w-4 shrink-0",
-                  priorities.find((p) => p.value === currentPriority)?.color
-                )}
-              />
+              {priorities.find((p) => p.value === currentPriority)?.icon}
               {priorities.find((p) => p.value === currentPriority)?.label}
             </>
           ) : (
