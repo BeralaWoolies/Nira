@@ -49,6 +49,8 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [currentPriority, setCurrentPriority] = React.useState<IssuePriority | "">(issue.priority);
 
+  const issuePriority = issuePriorities.find((p) => p.value === currentPriority);
+
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>
@@ -63,8 +65,8 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
         >
           {currentPriority ? (
             <>
-              {issuePriorities.find((p) => p.value === currentPriority)?.icon}
-              {issuePriorities.find((p) => p.value === currentPriority)?.label}
+              {issuePriority?.icon}
+              {issuePriority?.label}
             </>
           ) : (
             <p className="font-normal text-[#888]">No priority</p>

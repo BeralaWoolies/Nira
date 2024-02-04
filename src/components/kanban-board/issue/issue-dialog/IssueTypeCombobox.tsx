@@ -41,6 +41,8 @@ export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [currentIssueType, setCurrentIssueType] = React.useState<IssueType>(issue.type);
 
+  const issueType = issueTypes.find((issueType) => issueType.value === currentIssueType);
+
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>
@@ -52,8 +54,8 @@ export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
         >
           {currentIssueType ? (
             <>
-              {issueTypes.find((p) => p.value === currentIssueType)?.icon}
-              <p className="text-sm">{`Issue-${issue.id}`}</p>
+              {issueType?.icon}
+              <p className="text-sm">{`${issueType?.label}-${issue.id}`}</p>
             </>
           ) : (
             <p className="font-normal text-[#888]">No issue type</p>
