@@ -5,6 +5,7 @@ import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import IssueDescription from "@/components/kanban-board/issue/issue-dialog/IssueDescription";
 import IssueDialogTitle from "@/components/kanban-board/issue/issue-dialog/IssueDialogTitle";
+import { IssuePriorityCombobox } from "@/components/kanban-board/issue/issue-dialog/IssuePriorityCombobox";
 
 interface IssueDialogProps {
   issue: IssuesResponse;
@@ -26,6 +27,10 @@ export default function IssueDialog({ issue, open, closeDialog }: IssueDialogPro
               <h2 className="mb-1 pl-2 font-semibold">Description</h2>
               <IssueDescription issue={issue} />
             </div>
+          </div>
+          <div className="col-span-2">
+            <h2 className="mb-1 mt-16 pl-1 font-semibold">Priority</h2>
+            <IssuePriorityCombobox issue={issue} />
           </div>
         </div>
       </DialogContent>

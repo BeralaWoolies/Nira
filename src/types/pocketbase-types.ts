@@ -48,9 +48,17 @@ export type ColumnsRecord = {
 	title: string
 }
 
+export enum IssuesPriorityOptions {
+	"highest" = "highest",
+	"high" = "high",
+	"medium" = "medium",
+	"low" = "low",
+	"lowest" = "lowest",
+}
 export type IssuesRecord = {
 	column: RecordIdString
-	description?: string
+	description?: HTMLString
+	priority?: IssuesPriorityOptions
 	title: string
 }
 
