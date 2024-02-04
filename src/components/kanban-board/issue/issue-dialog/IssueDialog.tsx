@@ -7,6 +7,8 @@ import IssueDescription from "@/components/kanban-board/issue/issue-dialog/Issue
 import IssueDialogTitle from "@/components/kanban-board/issue/issue-dialog/IssueDialogTitle";
 import { IssuePriorityCombobox } from "@/components/kanban-board/issue/issue-dialog/IssuePriorityCombobox";
 import { IssueTypeCombobox } from "@/components/kanban-board/issue/issue-dialog/IssueTypeCombobox";
+import { format } from "date-fns";
+import { CalendarIcon } from "@radix-ui/react-icons";
 
 interface IssueDialogProps {
   issue: IssuesResponse;
@@ -27,9 +29,18 @@ export default function IssueDialog({ issue, open, closeDialog }: IssueDialogPro
               <IssueDescription issue={issue} />
             </div>
           </div>
-          <div className="col-span-2">
-            <h2 className="mb-1 mt-[4.5rem] pl-1 font-semibold">Priority</h2>
-            <IssuePriorityCombobox issue={issue} />
+          <div className="col-span-2 flex flex-col justify-between">
+            <div>
+              <h2 className="mb-1 mt-[4.5rem] pl-1 font-semibold">Priority</h2>
+              <IssuePriorityCombobox issue={issue} />
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <CalendarIcon className="h-6 w-6 shrink-0" />
+              <div className="space-y-1">
+                <p>{`Created ${format(issue.created, "MMMM d, yyyy 'at' h:mm aaa")}`}</p>
+                <p>{`Updated ${format(issue.updated, "MMMM d, yyyy 'at' h:mm aaa")}`}</p>
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
