@@ -11,7 +11,7 @@ import AlertCircleIcon from "@/components/icons/AlertCircleIcon";
 import { BookmarkIcon } from "lucide-react";
 import IssueTypeForm from "@/components/kanban-board/issue/issue-dialog/IssueTypeForm";
 
-const issueTypes: Array<{
+export const issueTypes: Array<{
   value: IssueType;
   label: string;
   icon: React.JSX.Element;
