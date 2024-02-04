@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { MessageCircleXIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import IssuePriorityForm from "@/components/kanban-board/issue/issue-dialog/IssuePriorityForm";
 import { IssuesResponse } from "@/types/pocketbase-types";
 import { IssuePriority } from "@/types/issue-types";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 
-const priorities: Array<{
+export const issuePriorities: Array<{
   value: IssuePriority;
   label: string;
   icon: React.JSX.Element;
@@ -17,27 +17,27 @@ const priorities: Array<{
   {
     value: "highest",
     label: "Highest",
-    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-red-700" />,
+    icon: <ArrowUpIcon className="h-5 w-5 shrink-0 stroke-red-700" />,
   },
   {
     value: "high",
     label: "High",
-    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-red-500" />,
+    icon: <ArrowUpIcon className="h-5 w-5 shrink-0 stroke-red-500" />,
   },
   {
     value: "medium",
     label: "Medium",
-    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-orange-500" />,
+    icon: <ArrowUpIcon className="h-5 w-5 shrink-0 stroke-orange-500" />,
   },
   {
     value: "low",
     label: "Low",
-    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-green-600" />,
+    icon: <ArrowDownIcon className="h-5 w-5 shrink-0 stroke-green-700" />,
   },
   {
     value: "lowest",
     label: "Lowest",
-    icon: <MessageCircleXIcon className="h-5 w-5 shrink-0 stroke-green-500" />,
+    icon: <ArrowDownIcon className="h-5 w-5 shrink-0 stroke-lime-500" />,
   },
 ];
 
@@ -63,8 +63,8 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
         >
           {currentPriority ? (
             <>
-              {priorities.find((p) => p.value === currentPriority)?.icon}
-              {priorities.find((p) => p.value === currentPriority)?.label}
+              {issuePriorities.find((p) => p.value === currentPriority)?.icon}
+              {issuePriorities.find((p) => p.value === currentPriority)?.label}
             </>
           ) : (
             <p className="font-normal text-[#888]">No priority</p>
@@ -74,7 +74,7 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
       <PopoverContent className="w-[10rem] rounded-sm p-0" align="start">
         <IssuePriorityForm
           issue={issue}
-          priorities={priorities}
+          issuePriorities={issuePriorities}
           currentPriority={currentPriority}
           updatePriority={(newPriority) =>
             setCurrentPriority(newPriority === currentPriority ? "" : newPriority)

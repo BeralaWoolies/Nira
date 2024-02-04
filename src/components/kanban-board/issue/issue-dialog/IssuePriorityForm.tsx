@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, MessageCircleXIcon } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
@@ -21,7 +21,7 @@ import {
 
 interface IssuePriorityFormProps {
   issue: IssuesResponse;
-  priorities: Array<{
+  issuePriorities: Array<{
     value: IssuePriority;
     label: string;
     icon: React.JSX.Element;
@@ -33,7 +33,7 @@ interface IssuePriorityFormProps {
 
 export default function IssuePriorityForm({
   issue,
-  priorities,
+  issuePriorities,
   currentPriority,
   updatePriority,
   closePopover,
@@ -64,7 +64,7 @@ export default function IssuePriorityForm({
                   <CommandInput placeholder="Search" />
                   <CommandEmpty>No priority found.</CommandEmpty>
                   <CommandGroup>
-                    {priorities.map((p) => (
+                    {issuePriorities.map((p) => (
                       <CommandItem
                         key={p.value}
                         value={p.value}
