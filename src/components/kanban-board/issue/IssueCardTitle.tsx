@@ -6,6 +6,7 @@ import EditIssueTitleForm from "@/components/kanban-board/issue/EditIssueTitleFo
 import IssueContextMenu from "@/components/kanban-board/issue/IssueContextMenu";
 import PropagationWrapper from "@/components/PropagationWrapper";
 import { Textarea } from "@/components/ui/textarea";
+import EditingControl from "@/components/kanban-board/EditingControl";
 
 interface IssueTitleProps {
   issue: IssuesResponse;
@@ -27,7 +28,11 @@ export default function IssueCardTitle({ issue }: IssueTitleProps) {
 
   return (
     <PropagationWrapper className="w-full">
-      <EditIssueTitleForm issue={issue} closeEditingMode={() => setEditingMode(false)}>
+      <EditIssueTitleForm
+        issue={issue}
+        closeEditingMode={() => setEditingMode(false)}
+        editingControl={<EditingControl closeEditingMode={() => setEditingMode(false)} />}
+      >
         <Textarea className="resize-none border-none bg-background shadow-none ring-accent-foreground" />
       </EditIssueTitleForm>
     </PropagationWrapper>

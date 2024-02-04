@@ -9,18 +9,19 @@ import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { updateIssue } from "@/actions/kanban-board";
 import { IssuesResponse } from "@/types/pocketbase-types";
 import toastKanbanResponse from "@/utils/toast-responses";
-import EditingControl from "@/components/kanban-board/EditingControl";
 
 interface EditIssueTitleFormProps {
   issue: IssuesResponse;
   closeEditingMode: () => void;
   children: React.JSX.Element;
+  editingControl: React.JSX.Element;
 }
 
 export default function EditIssueTitleForm({
   issue,
   closeEditingMode,
   children,
+  editingControl,
 }: EditIssueTitleFormProps) {
   const inputElement = React.Children.only(children);
   const additionalProps = {
@@ -73,9 +74,7 @@ export default function EditIssueTitleForm({
             </FormItem>
           )}
         />
-        <div className="absolute right-0">
-          <EditingControl closeEditingMode={closeEditingMode} />
-        </div>
+        {editingControl}
       </form>
     </Form>
   );
