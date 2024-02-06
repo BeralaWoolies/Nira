@@ -7,8 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { IssuesResponse } from "@/types/pocketbase-types";
-import { IssueType } from "@/types/issue-types";
+import { Issue, IssueType } from "@/types/issue-types";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
 import {
@@ -20,7 +19,7 @@ import {
 } from "@/components/ui/command";
 
 interface IssueTypeFormProps {
-  issue: IssuesResponse;
+  issue: Issue;
   issueTypes: Array<{
     value: IssueType;
     label: string;

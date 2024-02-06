@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import EditIssueTitleForm from "@/components/kanban-board/issue/EditIssueTitleForm";
 import { Input } from "@/components/ui/input";
 import { DialogTitle } from "@/components/ui/dialog";
-import { IssuesResponse } from "@/types/pocketbase-types";
 import EditingControl from "@/components/kanban-board/EditingControl";
+import { Issue } from "@/types/issue-types";
 
 interface IssueDialogTitleProps {
-  issue: IssuesResponse;
+  issue: Issue;
 }
 
 export default function IssueDialogTitle({ issue }: IssueDialogTitleProps) {

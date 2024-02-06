@@ -4,8 +4,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { IssuesResponse } from "@/types/pocketbase-types";
-import { IssueType } from "@/types/issue-types";
+import { Issue, IssueType } from "@/types/issue-types";
 import CheckSquareIcon from "@/components/icons/CheckSquareIcon";
 import AlertCircleIcon from "@/components/icons/AlertCircleIcon";
 import { BookmarkIcon } from "lucide-react";
@@ -34,7 +33,7 @@ export const issueTypes: Array<{
 ];
 
 interface IssuePriorityComboboxProps {
-  issue: IssuesResponse;
+  issue: Issue;
 }
 
 export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {

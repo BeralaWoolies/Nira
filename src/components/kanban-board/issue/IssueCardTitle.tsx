@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { IssuesResponse } from "@/types/pocketbase-types";
 import EditIssueTitleForm from "@/components/kanban-board/issue/EditIssueTitleForm";
 import IssueContextMenu from "@/components/kanban-board/issue/IssueContextMenu";
 import PropagationWrapper from "@/components/PropagationWrapper";
 import { Textarea } from "@/components/ui/textarea";
 import EditingControl from "@/components/kanban-board/EditingControl";
+import { Issue } from "@/types/issue-types";
 
 interface IssueTitleProps {
-  issue: IssuesResponse;
+  issue: Issue;
 }
 
 export default function IssueCardTitle({ issue }: IssueTitleProps) {

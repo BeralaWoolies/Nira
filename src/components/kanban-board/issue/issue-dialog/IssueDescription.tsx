@@ -1,12 +1,12 @@
 "use client";
 
-import { IssuesResponse } from "@/types/pocketbase-types";
 import React, { useState } from "react";
 import EditIssueDescriptionForm from "@/components/kanban-board/issue/issue-dialog/EditIssueDescriptionForm";
 import EditorPreview from "@/components/editor/EditorPreview";
+import { Issue } from "@/types/issue-types";
 
 interface IssueDescriptionProps {
-  issue: IssuesResponse;
+  issue: Issue;
 }
 
 export default function IssueDescription({ issue }: IssueDescriptionProps) {

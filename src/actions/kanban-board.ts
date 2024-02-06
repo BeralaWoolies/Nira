@@ -4,7 +4,8 @@ import { createServerClient } from "@/lib/pocketbase";
 import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
 import { TColumn } from "@/types/boards-types";
-import { Collections, IssuesResponse } from "@/types/pocketbase-types";
+import { Issue } from "@/types/issue-types";
+import { AuthSystemFields, Collections } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 
@@ -93,11 +94,13 @@ export async function updateIssuesOrderBetween(
 export async function createIssue(columnId: string, values: TIssueForm): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
+    const reporter = pb.authStore.model as AuthSystemFields;
     await pb.send("/api/nira/issue", {
       method: "POST",
       body: {
         columnId: columnId,
         title: values.title,
+        reporterId: reporter.id,
       },
     });
 
@@ -134,7 +137,7 @@ export async function createColumn(boardId: string, values: TColumnForm): Promis
   }
 }
 
-export async function deleteIssue(issue: IssuesResponse): Promise<KanbanResponse> {
+export async function deleteIssue(issue: Issue): Promise<KanbanResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.collection(Collections.Issues).delete(issue.id);
@@ -150,7 +153,7 @@ export async function deleteIssue(issue: IssuesResponse): Promise<KanbanResponse
   }
 }
 
-export async function updateIssue(issue: IssuesResponse, values: TIssueForm) {
+export async function updateIssue(issue: Issue, values: TIssueForm) {
   try {
     const pb = createServerClient(cookies());
     const updatedIssue = await pb.collection(Collections.Issues).update(issue.id, values);

@@ -5,8 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import IssuePriorityForm from "@/components/kanban-board/issue/issue-dialog/IssuePriorityForm";
-import { IssuesResponse } from "@/types/pocketbase-types";
-import { IssuePriority } from "@/types/issue-types";
+import { Issue, IssuePriority } from "@/types/issue-types";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 
 export const issuePriorities: Array<{
@@ -42,7 +41,7 @@ export const issuePriorities: Array<{
 ];
 
 interface IssuePriorityComboboxProps {
-  issue: IssuesResponse;
+  issue: Issue;
 }
 
 export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {

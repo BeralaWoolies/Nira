@@ -65,6 +65,7 @@ export type IssuesRecord = {
 	column: RecordIdString
 	description?: HTMLString
 	priority?: IssuesPriorityOptions
+	reporter: RecordIdString
 	title: string
 	type?: IssuesTypeOptions
 }

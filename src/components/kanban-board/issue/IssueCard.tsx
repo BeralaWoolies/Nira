@@ -1,6 +1,5 @@
 "use client";
 
-import { IssuesResponse } from "@/types/pocketbase-types";
 import React, { useState } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Draggable } from "@hello-pangea/dnd";
@@ -10,9 +9,10 @@ import IssueDialog from "@/components/kanban-board/issue/issue-dialog/IssueDialo
 import { issueTypes } from "@/components/kanban-board/issue/issue-dialog/IssueTypeCombobox";
 import { issuePriorities } from "@/components/kanban-board/issue/issue-dialog/IssuePriorityCombobox";
 import IssueIconTooltip from "@/components/kanban-board/issue/IssueIconTooltip";
+import { Issue } from "@/types/issue-types";
 
 interface IssueCardProps {
-  issue: IssuesResponse;
+  issue: Issue;
   index: number;
 }
 

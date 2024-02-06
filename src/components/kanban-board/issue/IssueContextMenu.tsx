@@ -19,10 +19,10 @@ import { Button } from "@/components/ui/button";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { deleteIssue } from "@/actions/kanban-board";
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import { IssuesResponse } from "@/types/pocketbase-types";
+import { Issue } from "@/types/issue-types";
 
 interface IssueContextMenuProps {
-  issue: IssuesResponse;
+  issue: Issue;
   openEditingMode: () => void;
 }
 

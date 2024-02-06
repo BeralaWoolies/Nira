@@ -43,6 +43,7 @@ routerAdd("POST", "/api/nira/issue", (c) => {
   const data = new DynamicModel({
     columnId: "",
     title: "",
+    reporterId: "",
   });
   c.bind(data);
 
@@ -53,6 +54,7 @@ routerAdd("POST", "/api/nira/issue", (c) => {
       const issueRecord = new Record(issuesCollection, {
         title: data.title,
         column: data.columnId,
+        reporter: data.reporterId,
       });
       txDao.saveRecord(issueRecord);
 

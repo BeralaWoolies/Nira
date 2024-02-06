@@ -1,6 +1,5 @@
 "use client";
 
-import { IssuesResponse } from "@/types/pocketbase-types";
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import IssueDescription from "@/components/kanban-board/issue/issue-dialog/IssueDescription";
@@ -9,9 +8,10 @@ import { IssuePriorityCombobox } from "@/components/kanban-board/issue/issue-dia
 import { IssueTypeCombobox } from "@/components/kanban-board/issue/issue-dialog/IssueTypeCombobox";
 import { format } from "date-fns";
 import { CalendarIcon } from "@radix-ui/react-icons";
+import { Issue } from "@/types/issue-types";
 
 interface IssueDialogProps {
-  issue: IssuesResponse;
+  issue: Issue;
   open: boolean;
   closeDialog: () => void;
 }

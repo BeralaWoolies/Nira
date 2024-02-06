@@ -9,8 +9,7 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
-import { IssuesResponse } from "@/types/pocketbase-types";
-import { IssuePriority } from "@/types/issue-types";
+import { Issue, IssuePriority } from "@/types/issue-types";
 import {
   Command,
   CommandEmpty,
@@ -20,7 +19,7 @@ import {
 } from "@/components/ui/command";
 
 interface IssuePriorityFormProps {
-  issue: IssuesResponse;
+  issue: Issue;
   issuePriorities: Array<{
     value: IssuePriority;
     label: string;

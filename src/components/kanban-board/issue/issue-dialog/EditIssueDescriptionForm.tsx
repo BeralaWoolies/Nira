@@ -3,16 +3,16 @@
 import React from "react";
 import Editor from "@/components/editor/Editor";
 import { Button } from "@/components/ui/button";
-import { IssuesResponse } from "@/types/pocketbase-types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import toastKanbanResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
+import { Issue } from "@/types/issue-types";
 
 interface EditIssueDescriptionFormProps {
-  issue: IssuesResponse;
+  issue: Issue;
   closeEditingMode: () => void;
 }
 

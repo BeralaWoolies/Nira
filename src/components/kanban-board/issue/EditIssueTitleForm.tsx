@@ -7,11 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useSubmitOnKey from "@/hooks/useSubmitOnKey";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { updateIssue } from "@/actions/kanban-board";
-import { IssuesResponse } from "@/types/pocketbase-types";
 import toastKanbanResponse from "@/utils/toast-responses";
+import { Issue } from "@/types/issue-types";
 
 interface EditIssueTitleFormProps {
-  issue: IssuesResponse;
+  issue: Issue;
   closeEditingMode: () => void;
   children: React.JSX.Element;
   editingControl: React.JSX.Element;

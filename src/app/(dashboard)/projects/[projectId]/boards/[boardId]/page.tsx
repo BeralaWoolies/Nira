@@ -17,7 +17,7 @@ export default async function BoardsPage({ params }: BoardsPageProps) {
   const data = await pb
     .collection(Collections.Boards)
     .getOne<BoardsResponse<TBoardsExpand>>(params.boardId, {
-      expand: "project, columns, columns.issues",
+      expand: "project, columns, columns.issues, columns.issues.reporter",
     });
 
   return (

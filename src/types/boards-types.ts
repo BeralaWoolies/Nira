@@ -1,7 +1,8 @@
-import { ColumnsResponse, IssuesResponse, ProjectsResponse } from "@/types/pocketbase-types";
+import { ColumnsResponse, ProjectsResponse } from "@/types/pocketbase-types";
+import { Issue } from "@/types/issue-types";
 
 interface TColumnsExpand {
-  issues: IssuesResponse[];
+  issues: Issue[];
 }
 
 export type TColumn = ColumnsResponse<TColumnsExpand>;
