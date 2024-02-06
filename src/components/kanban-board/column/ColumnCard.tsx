@@ -1,6 +1,6 @@
 "use client";
 
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 import React from "react";
 import IssueCard from "@/components/kanban-board/issue/IssueCard";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
@@ -9,12 +9,12 @@ import isEqual from "react-fast-compare";
 import ColumnTitle from "@/components/kanban-board/column/ColumnTitle";
 
 interface ColumnProps {
-  column: TColumn;
+  column: Column;
   index: number;
 }
 
-const Column = React.memo(
-  function Column({ column, index }: ColumnProps) {
+const ColumnCard = React.memo(
+  function ColumnCard({ column, index }: ColumnProps) {
     console.log(`${column.title} rendered`);
     return (
       <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
@@ -54,4 +54,4 @@ const Column = React.memo(
   }
 );
 
-export default Column;
+export default ColumnCard;

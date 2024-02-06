@@ -9,10 +9,10 @@ import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import toastKanbanResponse from "@/utils/toast-responses";
 import EditingControl from "@/components/kanban-board/EditingControl";
 import { updateColumn } from "@/actions/kanban-board";
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 
 interface EditColumnTitleFormProps {
-  column: TColumn;
+  column: Column;
   closeEditingMode: () => void;
 }
 

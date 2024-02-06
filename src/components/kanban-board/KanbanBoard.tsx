@@ -1,8 +1,8 @@
 "use client";
 
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 import React, { useEffect, useState } from "react";
-import Column from "@/components/kanban-board/column/Column";
+import ColumnCard from "@/components/kanban-board/column/ColumnCard";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { produce } from "immer";
 import CreateColumnForm from "@/components/kanban-board/CreateColumnForm";
@@ -14,7 +14,7 @@ import {
 import toastKanbanResponse from "@/utils/toast-responses";
 
 interface KanbanBoardProps {
-  data: TColumn[];
+  data: Column[];
   boardId: string;
 }
 
@@ -131,7 +131,7 @@ export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
             className="flex max-h-[72dvh] min-h-[35rem] overflow-x-auto"
           >
             {columns.map((col, index) => (
-              <Column key={col.id} column={col} index={index} />
+              <ColumnCard key={col.id} column={col} index={index} />
             ))}
             {droppableProvided.placeholder}
             <CreateColumnForm boardId={boardId} />

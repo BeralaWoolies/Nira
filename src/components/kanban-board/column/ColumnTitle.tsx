@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import EditColumnTitleForm from "@/components/kanban-board/column/EditColumnTitleForm";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 import ColumnContextMenu from "./ColumnContextMenu";
 
 interface ColumnTitleProps {
-  column: TColumn;
+  column: Column;
 }
 
 export default function ColumnTitle({ column }: ColumnTitleProps) {

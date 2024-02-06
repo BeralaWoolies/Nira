@@ -3,7 +3,7 @@
 import { createServerClient } from "@/lib/pocketbase";
 import { TColumnForm } from "@/schemas/column-form";
 import { TIssueForm } from "@/schemas/issue-form";
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 import { Issue } from "@/types/issue-types";
 import { AuthSystemFields, Collections } from "@/types/pocketbase-types";
 import { revalidatePath } from "next/cache";
@@ -21,7 +21,7 @@ export type KanbanResponse =
 
 export async function updateColumnsOrder(
   boardId: string,
-  reorderedColumns: TColumn[]
+  reorderedColumns: Column[]
 ): Promise<KanbanResponse> {
   const reorderedColumnIds = reorderedColumns.map((col) => col.id);
 
@@ -42,7 +42,7 @@ export async function updateColumnsOrder(
   }
 }
 
-export async function updateIssuesOrder(column: TColumn): Promise<KanbanResponse> {
+export async function updateIssuesOrder(column: Column): Promise<KanbanResponse> {
   const reorderedIssueIds = column.expand!.issues.map((issue) => issue.id);
 
   try {
@@ -63,8 +63,8 @@ export async function updateIssuesOrder(column: TColumn): Promise<KanbanResponse
 }
 
 export async function updateIssuesOrderBetween(
-  sourceColumn: TColumn,
-  destColumn: TColumn,
+  sourceColumn: Column,
+  destColumn: Column,
   destIndex: number
 ): Promise<KanbanResponse> {
   try {
@@ -169,7 +169,7 @@ export async function updateIssue(issue: Issue, values: TIssueForm) {
   }
 }
 
-export async function updateColumn(column: TColumn, values: TColumnForm) {
+export async function updateColumn(column: Column, values: TColumnForm) {
   try {
     const pb = createServerClient(cookies());
     const updatedColumn = await pb.collection(Collections.Columns).update(column.id, values);
@@ -185,7 +185,7 @@ export async function updateColumn(column: TColumn, values: TColumnForm) {
   }
 }
 
-export async function deleteColumn(column: TColumn) {
+export async function deleteColumn(column: Column) {
   try {
     const pb = createServerClient(cookies());
     await pb.collection(Collections.Columns).delete(column.id);

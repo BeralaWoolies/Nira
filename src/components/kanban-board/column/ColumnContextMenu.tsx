@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { TColumn } from "@/types/boards-types";
+import { Column } from "@/types/column-types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +22,7 @@ import toastKanbanResponse from "@/utils/toast-responses";
 import { deleteColumn } from "@/actions/kanban-board";
 
 interface ColumnContextMenuProps {
-  column: TColumn;
+  column: Column;
 }
 
 export default function ColumnContextMenu({ column }: ColumnContextMenuProps) {
