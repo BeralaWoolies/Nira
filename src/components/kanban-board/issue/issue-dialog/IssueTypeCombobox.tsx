@@ -8,7 +8,7 @@ import { Issue, IssueType } from "@/types/issue-types";
 import CheckSquareIcon from "@/components/icons/CheckSquareIcon";
 import AlertCircleIcon from "@/components/icons/AlertCircleIcon";
 import { BookmarkIcon } from "lucide-react";
-import IssueTypeForm from "@/components/kanban-board/issue/issue-dialog/IssueTypeForm";
+import IssueComboboxForm from "@/components/kanban-board/issue/issue-dialog/IssueComboboxForm";
 
 export const issueTypes: Array<{
   value: IssueType;
@@ -62,12 +62,21 @@ export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[10rem] rounded-sm p-0" align="start">
-        <IssueTypeForm
+        <IssueComboboxForm
           issue={issue}
-          issueTypes={issueTypes}
-          currentIssueType={currentIssueType}
-          updateIssueType={(newIssueType) => setCurrentIssueType(newIssueType)}
-          closePopover={() => setPopoverOpen(false)}
+          formOptions={{
+            items: issueTypes,
+            currentItemValue: currentIssueType,
+            name: "type",
+            defaultValues: {
+              type: issue.type,
+            },
+            onUpdate: (newIssueType) => {
+              setCurrentIssueType(newIssueType);
+              setPopoverOpen(false);
+              return newIssueType;
+            },
+          }}
         />
       </PopoverContent>
     </Popover>

@@ -4,9 +4,9 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import IssuePriorityForm from "@/components/kanban-board/issue/issue-dialog/IssuePriorityForm";
 import { Issue, IssuePriority } from "@/types/issue-types";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import IssueComboboxForm from "@/components/kanban-board/issue/issue-dialog/IssueComboboxForm";
 
 export const issuePriorities: Array<{
   value: IssuePriority;
@@ -73,14 +73,22 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[10rem] rounded-sm p-0" align="start">
-        <IssuePriorityForm
+        <IssueComboboxForm
           issue={issue}
-          issuePriorities={issuePriorities}
-          currentPriority={currentPriority}
-          updatePriority={(newPriority) =>
-            setCurrentPriority(newPriority === currentPriority ? "" : newPriority)
-          }
-          closePopover={() => setPopoverOpen(false)}
+          formOptions={{
+            items: issuePriorities,
+            currentItemValue: currentPriority,
+            name: "priority",
+            defaultValues: {
+              priority: issue.priority,
+            },
+            onUpdate: (newPriority) => {
+              newPriority = newPriority === currentPriority ? "" : newPriority;
+              setCurrentPriority(newPriority);
+              setPopoverOpen(false);
+              return newPriority;
+            },
+          }}
         />
       </PopoverContent>
     </Popover>
