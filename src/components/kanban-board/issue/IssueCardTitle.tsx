@@ -18,7 +18,7 @@ export default function IssueCardTitle({ issue }: IssueTitleProps) {
   if (!editingMode) {
     return (
       <>
-        <h1 className="line break-all text-sm hover:underline">{issue.title}</h1>
+        <h1 className="line break-all text-sm font-medium hover:underline">{issue.title}</h1>
         <PropagationWrapper>
           <IssueContextMenu issue={issue} openEditingMode={() => setEditingMode(true)} />
         </PropagationWrapper>
