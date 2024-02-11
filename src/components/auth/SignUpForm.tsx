@@ -63,6 +63,7 @@ export default function SignUpForm() {
         password: values.password,
         passwordConfirm: values.passwordConfirm,
       });
+      await pb.collection("users").authWithPassword(values.email, values.password);
       console.log(userRecord);
       onAuthSuccess();
     } catch (error) {
