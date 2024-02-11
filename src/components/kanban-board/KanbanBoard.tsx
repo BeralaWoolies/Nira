@@ -12,13 +12,18 @@ import {
   updateIssuesOrderBetween,
 } from "@/actions/kanban-board";
 import toastKanbanResponse from "@/utils/toast-responses";
+import { UsersResponse } from "@/types/pocketbase-types";
+import { useHydrateAtoms } from "jotai/react/utils";
+import { membersAtom } from "@/store/atoms";
 
 interface KanbanBoardProps {
   data: Column[];
   boardId: string;
+  members: UsersResponse[];
 }
 
-export default function KanbanBoard({ data, boardId }: KanbanBoardProps) {
+export default function KanbanBoard({ data, boardId, members }: KanbanBoardProps) {
+  useHydrateAtoms([[membersAtom, members]], { dangerouslyForceHydrate: true });
   console.log("KanbanBoard rendered");
 
   const [columns, setColumns] = useState(data);

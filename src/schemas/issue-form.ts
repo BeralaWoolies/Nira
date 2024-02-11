@@ -17,6 +17,7 @@ export const issueFormSchema = z.object({
   description: z.string().optional(),
   priority: z.enum(issueRriorities as [string, ...string[]]).optional(),
   type: z.enum(issueTypes as [string, ...string[]]).optional(),
+  reporter: z.string().optional(),
 });
 
 export type TIssueForm = z.infer<typeof issueFormSchema>;

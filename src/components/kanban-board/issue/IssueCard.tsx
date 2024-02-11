@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Draggable } from "@hello-pangea/dnd";
 import IssueCardTitle from "@/components/kanban-board/issue/IssueCardTitle";
@@ -55,8 +55,14 @@ const IssueCard = React.memo(
                   </IssueIconTooltip>
                 )}
               </div>
+              {dialogOpen && (
+                <IssueDialog
+                  open={dialogOpen}
+                  issue={issue}
+                  closeDialog={() => setDialogOpen(false)}
+                />
+              )}
             </Card>
-            <IssueDialog open={dialogOpen} issue={issue} closeDialog={() => setDialogOpen(false)} />
           </>
         )}
       </Draggable>
