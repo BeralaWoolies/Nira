@@ -1,19 +1,20 @@
-import { Issue } from "@/types/issue-types";
 import React from "react";
+import { Issue } from "@/types/issue-types";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import IssueComboboxForm from "@/components/kanban-board/issue/issue-dialog/IssueComboboxForm";
-import UserAvatar from "@/components/UserAvatar";
 
-interface IssueReporterComboboxProps {
+interface IssueAssigneeComboboxProps {
   issue: Issue;
   items: Array<{ value: string; label: string; icon: JSX.Element }>;
 }
 
-export default function IssueReporterCombobox({ issue, items }: IssueReporterComboboxProps) {
+export default function IssueAssigneeCombobox({ issue, items }: IssueAssigneeComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  const [currentReporter, setCurrentReporter] = React.useState(issue.reporter);
+  const [currentAssignee, setCurrentAssignee] = React.useState(issue.assignee);
+
+  const assignee = items.find((assignee) => assignee.value === currentAssignee);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -24,13 +25,13 @@ export default function IssueReporterCombobox({ issue, items }: IssueReporterCom
           aria-expanded={popoverOpen}
           className={cn("w-fit max-w-[11rem] justify-start gap-2 rounded-sm p-2 font-normal")}
         >
-          {currentReporter ? (
+          {currentAssignee ? (
             <>
-              <UserAvatar user={issue.expand!.reporter} className="h-7 w-7 hover:ring-0" />
-              <p className="truncate text-sm">{issue.expand!.reporter.username}</p>
+              {assignee?.icon}
+              <p className="truncate text-sm">{assignee?.label}</p>
             </>
           ) : (
-            <p className="font-normal text-[#888]">No reporter</p>
+            <p className="font-normal text-[#888]">Unassigned</p>
           )}
         </Button>
       </PopoverTrigger>
@@ -39,15 +40,16 @@ export default function IssueReporterCombobox({ issue, items }: IssueReporterCom
           issue={issue}
           formOptions={{
             items: items,
-            currentItemValue: currentReporter,
-            name: "reporter",
+            currentItemValue: currentAssignee,
+            name: "assignee",
             defaultValues: {
-              reporter: issue.reporter,
+              assignee: issue.assignee,
             },
-            onUpdate: (newReporter) => {
-              setCurrentReporter(newReporter);
+            onUpdate: (newAssignee) => {
+              newAssignee = newAssignee === currentAssignee ? "" : newAssignee;
+              setCurrentAssignee(newAssignee);
               setPopoverOpen(false);
-              return newReporter;
+              return newAssignee;
             },
           }}
         />

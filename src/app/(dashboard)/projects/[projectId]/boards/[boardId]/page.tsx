@@ -27,7 +27,8 @@ export default async function BoardsPage({ params }: BoardsPageProps) {
       }>;
     }>
   >(params.boardId, {
-    expand: "project, project.members, columns, columns.issues, columns.issues.reporter",
+    expand:
+      "project, project.members, columns, columns.issues, columns.issues.reporter, columns.issues.assignee",
   });
 
   return (

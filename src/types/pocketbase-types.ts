@@ -62,6 +62,7 @@ export enum IssuesTypeOptions {
 	"story" = "story",
 }
 export type IssuesRecord = {
+	assignee?: RecordIdString
 	column: RecordIdString
 	description?: HTMLString
 	priority?: IssuesPriorityOptions

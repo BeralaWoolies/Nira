@@ -10,6 +10,7 @@ import { issueTypes } from "@/components/kanban-board/issue/issue-dialog/IssueTy
 import { issuePriorities } from "@/components/kanban-board/issue/issue-dialog/IssuePriorityCombobox";
 import IssueIconTooltip from "@/components/kanban-board/issue/IssueIconTooltip";
 import { Issue } from "@/types/issue-types";
+import UserAvatar from "@/components/UserAvatar";
 
 interface IssueCardProps {
   issue: Issue;
@@ -40,18 +41,31 @@ const IssueCard = React.memo(
                   <IssueCardTitle issue={issue} />
                 </div>
               </CardHeader>
-              <div className="flex gap-1">
-                {issueType && (
-                  <IssueIconTooltip className="issue-icon" content={issueType.label}>
-                    {issueType.icon}
-                  </IssueIconTooltip>
-                )}
-                {issuePriority && (
+              <div className="flex justify-between ">
+                <div className="flex items-center gap-1">
+                  {issueType && (
+                    <IssueIconTooltip className="issue-icon" content={issueType.label}>
+                      {issueType.icon}
+                    </IssueIconTooltip>
+                  )}
+                  {issuePriority && (
+                    <IssueIconTooltip
+                      className="issue-icon"
+                      content={`${issuePriority.label} priority`}
+                    >
+                      {issuePriority.icon}
+                    </IssueIconTooltip>
+                  )}
+                </div>
+                {issue.expand?.assignee && (
                   <IssueIconTooltip
-                    className="issue-icon"
-                    content={`${issuePriority.label} priority`}
+                    content={`Assigned to ${issue.expand.assignee.username}`}
+                    className="issue-icon hover:bg-transparent"
                   >
-                    {issuePriority.icon}
+                    <UserAvatar
+                      user={issue.expand?.assignee}
+                      className="h-6 w-6 hover:ring-[3px]"
+                    />
                   </IssueIconTooltip>
                 )}
               </div>
