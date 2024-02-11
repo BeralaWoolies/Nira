@@ -22,7 +22,7 @@ export default async function ProfileContextMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar user={user} />
+        <UserAvatar user={user} className="h-7 w-7" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[300px]" align="end">
         <DropdownMenuLabel>Account</DropdownMenuLabel>

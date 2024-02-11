@@ -25,7 +25,9 @@ export default function ProjectCard({ project }: Project) {
       <CardFooter className="absolute bottom-3 p-0 pl-6">
         <div className="flex items-center gap-1">
           <CardDescription>Members:</CardDescription>
-          {members?.slice(0, 5).map((member) => <UserAvatar key={member.id} user={member} />)}
+          {members
+            ?.slice(0, 5)
+            .map((member) => <UserAvatar key={member.id} user={member} className="h-7 w-7" />)}
           {numMembers > 5 && <CardDescription>...</CardDescription>}
         </div>
       </CardFooter>
