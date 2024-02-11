@@ -82,6 +82,7 @@ export default function HeadingSelect({ editor }: HeadingSelectProps) {
           ? z.coerce.string().parse(editor.getAttributes("heading").level)
           : "paragraph"
       }
+      name="Heading selector"
       onValueChange={(value) =>
         value === "paragraph"
           ? editor.chain().setParagraph().run()
