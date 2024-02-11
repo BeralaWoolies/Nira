@@ -64,9 +64,9 @@ export default function IssueComboboxForm<T extends string, K extends keyof TIss
                     {items.map((item) => (
                       <CommandItem
                         key={item.value}
-                        value={item.value}
-                        onSelect={(newItemValue) => {
-                          field.onChange(onUpdate(newItemValue as T));
+                        value={item.label}
+                        onSelect={() => {
+                          field.onChange(onUpdate(item.value as T));
                           ref?.current?.requestSubmit();
                         }}
                         className="flex justify-between rounded-sm"
