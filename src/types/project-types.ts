@@ -1,4 +1,4 @@
-import { ProjectsResponse, UsersResponse } from "./pocketbase-types";
+import { ProjectsResponse, UsersResponse } from "@/types/pocketbase-types";
 
 export interface Project {
   project: ProjectsResponse<{

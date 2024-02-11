@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "@/components/navbar/ThemeToggle";
 import NavLinks from "@/components/navbar/NavLinks";
 import ProfileContextMenu from "@/components/navbar/ProfileContextMenu";
 

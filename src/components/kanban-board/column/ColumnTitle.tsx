@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import EditColumnTitleForm from "@/components/kanban-board/column/EditColumnTitleForm";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { Column } from "@/types/column-types";
-import ColumnContextMenu from "./ColumnContextMenu";
+import ColumnContextMenu from "@/components/kanban-board/column/ColumnContextMenu";
 
 interface ColumnTitleProps {
   column: Column;
