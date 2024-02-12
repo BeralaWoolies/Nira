@@ -3,6 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createFileUrl } from "@/lib/pocketbase";
 import { UsersResponse } from "@/types/pocketbase-types";
 import { cn } from "@/lib/utils";
+import { createAvatar } from "@dicebear/core";
+import { pixelArt } from "@dicebear/collection";
 
 interface UserAvatarProps {
   user: UsersResponse;
@@ -16,7 +18,9 @@ export default function UserAvatar({ user, className }: UserAvatarProps) {
         recordId: user.id,
         filename: user.avatar,
       })
-    : undefined;
+    : createAvatar(pixelArt, {
+        seed: user.id,
+      }).toDataUriSync();
 
   return (
     <Avatar className={cn("hover:ring-[5px] hover:ring-accent", className)}>
