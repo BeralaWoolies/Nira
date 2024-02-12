@@ -10,6 +10,8 @@
     "typegen": "npx pocketbase-typegen --db ./pb_data/data.db --out src/types/pocketbase-types.ts"
   },
   "dependencies": {
+    "@dicebear/collection": "^7.0.4",
+    "@dicebear/core": "^7.0.4",
     "@hello-pangea/dnd": "^16.5.0",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-accordion": "^1.1.2",
