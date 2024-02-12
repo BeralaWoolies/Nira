@@ -20,6 +20,8 @@ export default function UserAvatar({ user, className }: UserAvatarProps) {
       })
     : createAvatar(pixelArt, {
         seed: user.id,
+        radius: 50,
+        size: 25,
       }).toDataUriSync();
 
   return (
