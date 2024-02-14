@@ -8,6 +8,7 @@ import {
   ProjectsResponse,
   UsersResponse,
 } from "@/types/pocketbase-types";
+import { Provider } from "jotai";
 
 interface BoardsPageProps {
   params: {
@@ -35,11 +36,13 @@ export default async function BoardsPage({ params }: BoardsPageProps) {
     <>
       <div className="h-full space-y-3">
         <h1 className="text-2xl font-semibold">{`${data.expand!.project.key} board`}</h1>
-        <KanbanBoard
-          data={data.expand!.columns}
-          boardId={params.boardId}
-          members={data.expand!.project.expand!.members}
-        />
+        <Provider>
+          <KanbanBoard
+            data={data.expand!.columns}
+            boardId={params.boardId}
+            members={data.expand!.project.expand!.members}
+          />
+        </Provider>
       </div>
     </>
   );

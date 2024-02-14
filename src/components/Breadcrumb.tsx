@@ -12,12 +12,10 @@ export default function Breadcrumb({ crumbs }: BreadcrumbProps) {
   return (
     <>
       {crumbs.map((crumb, index) => (
-        <>
-          <Link href={crumb.href} scroll={false}>
-            <span className="hover:underline">{crumb.label}</span>
-          </Link>
+        <Link key={index} href={crumb.href} scroll={false}>
+          <span className="hover:underline">{crumb.label}</span>
           {index < crumbs.length - 1 && <span>{" / "}</span>}
-        </>
+        </Link>
       ))}
     </>
   );
