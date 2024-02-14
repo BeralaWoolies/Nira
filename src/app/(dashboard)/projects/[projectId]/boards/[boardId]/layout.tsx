@@ -1,8 +1,8 @@
-import BoardsRefreshLink from "@/components/boards/BoardsRefreshLink";
+import Breadcrumb from "@/components/Breadcrumb";
 import { createServerClient } from "@/lib/pocketbase";
-import { Collections, ProjectsResponse } from "@/types/pocketbase-types";
+import { BoardsResponse, Collections, ProjectsResponse } from "@/types/pocketbase-types";
 import { cookies } from "next/headers";
-import Link from "next/link";
+
 import React from "react";
 
 interface BoardsLayoutProps {
@@ -16,23 +16,26 @@ export default async function BoardsLayout({ children, params }: BoardsLayoutPro
   console.log("Boards Layout rendered");
 
   const pb = createServerClient(cookies());
-  const data = await pb.collection(Collections.Boards).getOne<{
-    expand?: {
+  const board = await pb.collection(Collections.Boards).getOne<
+    BoardsResponse<{
       project: ProjectsResponse;
-    };
-  }>(params.boardId, {
-    fields: "expand",
+    }>
+  >(params.boardId, {
     expand: "project",
   });
 
   return (
     <div className="flex h-full flex-col gap-4 p-6">
       <div className="text-sm">
-        <Link href="/projects" scroll={false}>
-          <span className="hover:underline">Projects</span>
-        </Link>
-        {" / "}
-        <BoardsRefreshLink projectName={data.expand?.project.name || "Software project"} />
+        <Breadcrumb
+          crumbs={[
+            { label: "Projects", href: "/projects" },
+            {
+              label: `${board.expand?.project.name}` || "Software Project",
+              href: `/projects/${board.project}/boards/${board.id}`,
+            },
+          ]}
+        />
       </div>
       {children}
     </div>
