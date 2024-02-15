@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useSubmitOnKey from "@/hooks/useSubmitOnKey";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { updateIssue } from "@/actions/kanban-board";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { Issue } from "@/types/issue-types";
 
 interface EditIssueTitleFormProps {
@@ -48,7 +48,7 @@ export default function EditIssueTitleForm({
   }, [issue, issueForm]);
 
   async function onSubmit(values: TIssueForm) {
-    toastKanbanResponse(await updateIssue(issue, values));
+    toastStatusResponse(await updateIssue(issue, values));
     closeEditingMode();
   }
 

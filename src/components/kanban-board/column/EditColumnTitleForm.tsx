@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import EditingControl from "@/components/kanban-board/EditingControl";
 import { updateColumn } from "@/actions/kanban-board";
 import { Column } from "@/types/column-types";
@@ -34,7 +34,7 @@ export default function EditColumnTitleForm({
   }, [column, columnForm]);
 
   async function onSubmit(values: TColumnForm) {
-    toastKanbanResponse(await updateColumn(column, values));
+    toastStatusResponse(await updateColumn(column, values));
     closeEditingMode();
   }
 

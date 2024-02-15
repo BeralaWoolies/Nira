@@ -11,7 +11,7 @@ import {
   updateIssuesOrder,
   updateIssuesOrderBetween,
 } from "@/actions/kanban-board";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { UsersResponse } from "@/types/pocketbase-types";
 import { useHydrateAtoms } from "jotai/react/utils";
 import { membersAtom } from "@/store/atoms";
@@ -67,7 +67,7 @@ export default function KanbanBoard({ data, boardId, members }: KanbanBoardProps
     );
 
     setColumns(newColumns);
-    toastKanbanResponse(await updateColumnsOrder(boardId, newColumns));
+    toastStatusResponse(await updateColumnsOrder(boardId, newColumns));
   }
 
   async function reorderIssues(sourceColumnId: string, sourceIndex: number, destIndex: number) {
@@ -83,7 +83,7 @@ export default function KanbanBoard({ data, boardId, members }: KanbanBoardProps
     });
 
     setColumns(newColumns);
-    toastKanbanResponse(await updateIssuesOrder(newColumns[sourceColumnIndex]));
+    toastStatusResponse(await updateIssuesOrder(newColumns[sourceColumnIndex]));
   }
 
   async function reorderIssuesBetween(
@@ -110,7 +110,7 @@ export default function KanbanBoard({ data, boardId, members }: KanbanBoardProps
     });
 
     setColumns(newColumns);
-    toastKanbanResponse(
+    toastStatusResponse(
       await updateIssuesOrderBetween(
         newColumns[sourceColumnIndex],
         newColumns[destColumnIndex],

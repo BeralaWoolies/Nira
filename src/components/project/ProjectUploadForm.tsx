@@ -8,7 +8,7 @@ import { ProjectsResponse } from "@/types/pocketbase-types";
 import { TProjectUploadForm, projectUploadFormSchema } from "@/schemas/project-upload-form";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { createBrowserClient } from "@/lib/pocketbase";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ImageIcon } from "@radix-ui/react-icons";
@@ -32,13 +32,13 @@ export default function ProjectUploadForm({ project }: ProjectUploadFormProps) {
     try {
       const pb = createBrowserClient();
       await pb.collection("projects").update(project.id, values);
-      toastKanbanResponse({
+      toastStatusResponse({
         success: "Successfully uploaded project icon",
       });
       router.refresh();
       projectUploadForm.reset();
     } catch (error) {
-      toastKanbanResponse({
+      toastStatusResponse({
         error: "Could not upload project icon",
       });
     }

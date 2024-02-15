@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
 import { Issue } from "@/types/issue-types";
 
@@ -28,7 +28,7 @@ export default function EditIssueDescriptionForm({
   });
 
   async function onSubmit(values: TIssueForm) {
-    toastKanbanResponse(await updateIssue(issue, values));
+    toastStatusResponse(await updateIssue(issue, values));
     closeEditingMode();
   }
 

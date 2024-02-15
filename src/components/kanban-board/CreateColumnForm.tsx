@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { TColumnForm, columnFormSchema } from "@/schemas/column-form";
 import { createColumn } from "@/actions/kanban-board";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import EditingControl from "@/components/kanban-board/EditingControl";
 
@@ -32,7 +32,7 @@ const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: Creat
   });
 
   async function onSubmit(values: TColumnForm) {
-    toastKanbanResponse(await createColumn(boardId, values));
+    toastStatusResponse(await createColumn(boardId, values));
     setEditingMode(false);
   }
 

@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { deleteIssue } from "@/actions/kanban-board";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Issue } from "@/types/issue-types";
@@ -51,7 +51,7 @@ export default function IssueContextMenu({ issue, openEditingMode }: IssueContex
         </DialogHeader>
         <Button
           variant="destructive"
-          onClick={async () => toastKanbanResponse(await deleteIssue(issue))}
+          onClick={async () => toastStatusResponse(await deleteIssue(issue))}
         >
           Delete
         </Button>

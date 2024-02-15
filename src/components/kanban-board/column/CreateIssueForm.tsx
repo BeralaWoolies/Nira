@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TIssueForm, issueFormSchema } from "@/schemas/issue-form";
 import { createIssue } from "@/actions/kanban-board";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import useScrollIntoView from "@/hooks/useScrollIntoView";
 import useSubmitOnKey from "@/hooks/useSubmitOnKey";
 
@@ -32,7 +32,7 @@ const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: Create
   });
 
   async function onSubmit(values: TIssueForm) {
-    toastKanbanResponse(await createIssue(columnId, values));
+    toastStatusResponse(await createIssue(columnId, values));
     issueForm.reset();
     setEditingMode(false);
   }

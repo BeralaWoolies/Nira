@@ -6,23 +6,14 @@ import { TIssueForm } from "@/schemas/issue-form";
 import { Column } from "@/types/column-types";
 import { Issue } from "@/types/issue-types";
 import { AuthSystemFields, Collections } from "@/types/pocketbase-types";
+import { StatusResponse } from "@/types/status-types";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
-
-export type KanbanResponse =
-  | {
-      success: string;
-      error?: undefined;
-    }
-  | {
-      error: string;
-      success?: undefined;
-    };
 
 export async function updateColumnsOrder(
   boardId: string,
   reorderedColumns: Column[]
-): Promise<KanbanResponse> {
+): Promise<StatusResponse> {
   const reorderedColumnIds = reorderedColumns.map((col) => col.id);
 
   try {
@@ -42,7 +33,7 @@ export async function updateColumnsOrder(
   }
 }
 
-export async function updateIssuesOrder(column: Column): Promise<KanbanResponse> {
+export async function updateIssuesOrder(column: Column): Promise<StatusResponse> {
   const reorderedIssueIds = column.expand!.issues.map((issue) => issue.id);
 
   try {
@@ -66,7 +57,7 @@ export async function updateIssuesOrderBetween(
   sourceColumn: Column,
   destColumn: Column,
   destIndex: number
-): Promise<KanbanResponse> {
+): Promise<StatusResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/update/issues-between", {
@@ -91,7 +82,7 @@ export async function updateIssuesOrderBetween(
   }
 }
 
-export async function createIssue(columnId: string, values: TIssueForm): Promise<KanbanResponse> {
+export async function createIssue(columnId: string, values: TIssueForm): Promise<StatusResponse> {
   try {
     const pb = createServerClient(cookies());
     const reporter = pb.authStore.model as AuthSystemFields;
@@ -115,7 +106,7 @@ export async function createIssue(columnId: string, values: TIssueForm): Promise
   }
 }
 
-export async function createColumn(boardId: string, values: TColumnForm): Promise<KanbanResponse> {
+export async function createColumn(boardId: string, values: TColumnForm): Promise<StatusResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.send("/api/nira/column", {
@@ -137,7 +128,7 @@ export async function createColumn(boardId: string, values: TColumnForm): Promis
   }
 }
 
-export async function deleteIssue(issue: Issue): Promise<KanbanResponse> {
+export async function deleteIssue(issue: Issue): Promise<StatusResponse> {
   try {
     const pb = createServerClient(cookies());
     await pb.collection(Collections.Issues).delete(issue.id);

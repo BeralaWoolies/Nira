@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Issue } from "@/types/issue-types";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { updateIssue } from "@/actions/kanban-board";
 import {
   Command,
@@ -45,7 +45,7 @@ export default function IssueComboboxForm<T extends string, K extends keyof TIss
   });
 
   async function onSubmit(values: TIssueForm) {
-    toastKanbanResponse(await updateIssue(issue, values));
+    toastStatusResponse(await updateIssue(issue, values));
   }
 
   return (

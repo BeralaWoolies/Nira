@@ -9,7 +9,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { Textarea } from "@/components/ui/textarea";
 import { ProjectsResponse } from "@/types/pocketbase-types";
 import { TProjectForm, projectFormSchema } from "@/schemas/project-form";
-import toastKanbanResponse from "@/utils/toast-responses";
+import toastStatusResponse from "@/utils/toast-responses";
 import { updateProject } from "@/actions/project";
 import {
   Form,
@@ -35,7 +35,7 @@ export default function ProjectSettingsForm({ project }: ProjectSettingsFormProp
   });
 
   async function onSubmit(values: TProjectForm) {
-    toastKanbanResponse(await updateProject(project, values));
+    toastStatusResponse(await updateProject(project, values));
   }
 
   return (
