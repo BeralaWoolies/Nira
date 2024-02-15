@@ -1,7 +1,7 @@
 import { ProjectsResponse } from "@/types/pocketbase-types";
 import React from "react";
 import { GearIcon, LayoutIcon } from "@radix-ui/react-icons";
-import SideBarLink, { SideLink } from "@/components/sidebar/SidebarLink";
+import SideBarLink, { SideLink } from "@/components/sidebar/SideBarLink";
 import { Separator } from "@/components/ui/separator";
 import ProjectAvatar from "@/components/project/ProjectAvatar";
 import {
