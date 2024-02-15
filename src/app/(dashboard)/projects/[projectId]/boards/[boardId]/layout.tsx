@@ -26,17 +26,15 @@ export default async function BoardsLayout({ children, params }: BoardsLayoutPro
 
   return (
     <div className="flex h-full flex-col gap-4 p-6">
-      <div className="text-sm">
-        <Breadcrumb
-          crumbs={[
-            { label: "Projects", href: "/projects" },
-            {
-              label: `${board.expand?.project.name}` || "Software Project",
-              href: `/projects/${board.project}/boards/${board.id}`,
-            },
-          ]}
-        />
-      </div>
+      <Breadcrumb
+        crumbs={[
+          { label: "Projects", href: "/projects" },
+          {
+            label: `${board.expand?.project.name}` || "Software Project",
+            href: `/projects/${board.project}/boards/${board.id}`,
+          },
+        ]}
+      />
       {children}
     </div>
   );

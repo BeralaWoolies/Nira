@@ -5,6 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { Textarea } from "@/components/ui/textarea";
+import { ProjectsResponse } from "@/types/pocketbase-types";
+import { TProjectForm, projectFormSchema } from "@/schemas/project-form";
+import toastKanbanResponse from "@/utils/toast-responses";
+import { updateProject } from "@/actions/project";
 import {
   Form,
   FormControl,
@@ -13,70 +19,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { createBrowserClient } from "@/lib/pocketbase";
-import { useRouter } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea";
-import { AuthSystemFields } from "@/types/pocketbase-types";
-import { TProjectForm, projectFormSchema } from "@/schemas/project-form";
 
-interface ProjectFormProps {
-  closeDialog: () => void;
+interface ProjectSettingsFormProps {
+  project: ProjectsResponse;
 }
 
-export default function ProjectForm({ closeDialog }: ProjectFormProps) {
-  const router = useRouter();
-
-  const projectForm = useForm<TProjectForm>({
+export default function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
+  const projectSettingsForm = useForm<TProjectForm>({
     resolver: zodResolver(projectFormSchema),
     defaultValues: {
-      name: "",
-      key: "",
-      description: "",
+      name: project.name,
+      key: project.key,
+      description: project.description,
     },
   });
 
   async function onSubmit(values: TProjectForm) {
-    try {
-      const pb = createBrowserClient();
-      const { id: userId } = pb.authStore.model as AuthSystemFields;
-
-      await pb.collection("projects").create({
-        name: values.name,
-        key: values.key,
-        description: values.description,
-        members: [userId],
-      });
-
-      onSuccess();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  function onSuccess() {
-    closeDialog();
-    router.refresh();
+    toastKanbanResponse(await updateProject(project, values));
   }
 
   return (
-    <Form {...projectForm}>
-      <form onSubmit={projectForm.handleSubmit(onSubmit)} className="space-y-4">
+    <Form {...projectSettingsForm}>
+      <form onSubmit={projectSettingsForm.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
-          control={projectForm.control}
+          control={projectSettingsForm.control}
           name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input autoFocus {...field} type="text" placeholder="A name for this project" />
+                <Input {...field} type="text" placeholder="A name for this project" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
-          control={projectForm.control}
+          control={projectSettingsForm.control}
           name="key"
           render={({ field }) => (
             <FormItem>
@@ -93,7 +72,7 @@ export default function ProjectForm({ closeDialog }: ProjectFormProps) {
           )}
         />
         <FormField
-          control={projectForm.control}
+          control={projectSettingsForm.control}
           name="description"
           render={({ field }) => (
             <FormItem>
@@ -101,7 +80,7 @@ export default function ProjectForm({ closeDialog }: ProjectFormProps) {
               <FormControl>
                 <Textarea
                   {...field}
-                  className="min-h-24"
+                  className="min-h-24 resize-none"
                   placeholder="Details and/or information about project..."
                 />
               </FormControl>
@@ -109,14 +88,18 @@ export default function ProjectForm({ closeDialog }: ProjectFormProps) {
             </FormItem>
           )}
         />
-        <Button disabled={projectForm.formState.isSubmitting} className="w-full" type="submit">
-          {projectForm.formState.isSubmitting ? (
+        <Button
+          disabled={projectSettingsForm.formState.isSubmitting}
+          className="rounded-sm"
+          type="submit"
+        >
+          {projectSettingsForm.formState.isSubmitting ? (
             <>
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              <p>Creating project</p>
+              <p>Saving</p>
             </>
           ) : (
-            <p>Create</p>
+            <p>Save</p>
           )}
         </Button>
       </form>

@@ -72,6 +72,7 @@ export type IssuesRecord = {
 }
 
 export type ProjectsRecord = {
+	avatar?: string
 	board?: RecordIdString
 	description?: string
 	key: string

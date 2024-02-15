@@ -1,8 +1,6 @@
 import WorkspaceView from "@/components/boards/WorkspaceView";
-import SideBar from "@/components/boards/SideBar";
-import { Collections, ProjectsResponse } from "@/types/pocketbase-types";
-import { createServerClient } from "@/lib/pocketbase";
-import { cookies } from "next/headers";
+import SideBar from "@/components/sidebar/SideBar";
+import { fetchProject } from "@/actions/project";
 
 interface WorkspaceLayoutProps {
   children: React.ReactNode;
@@ -14,10 +12,6 @@ interface WorkspaceLayoutProps {
 export default async function WorkspaceLayout({ children, params }: WorkspaceLayoutProps) {
   console.log("WorkspaceLayout rendered");
 
-  const pb = createServerClient(cookies());
-  const project = await pb
-    .collection(Collections.Projects)
-    .getOne<ProjectsResponse>(params.projectId);
-
+  const project = await fetchProject(params.projectId);
   return <WorkspaceView sideView={<SideBar project={project} />}>{children}</WorkspaceView>;
 }
