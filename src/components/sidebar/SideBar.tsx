@@ -1,11 +1,9 @@
 import { ProjectsResponse } from "@/types/pocketbase-types";
-import { thumbs } from "@dicebear/collection";
-import { createAvatar } from "@dicebear/core";
 import React from "react";
-import Image from "next/image";
 import { GearIcon, LayoutIcon } from "@radix-ui/react-icons";
 import SideBarLink, { SideLink } from "@/components/sidebar/SidebarLink";
 import { Separator } from "@/components/ui/separator";
+import ProjectAvatar from "@/components/project/ProjectAvatar";
 import {
   Accordion,
   AccordionContent,
@@ -19,13 +17,6 @@ interface SideBarProps {
 
 export default function SideBar({ project }: SideBarProps) {
   console.log("SideBar rendered");
-
-  const projectAvatar = createAvatar(thumbs, {
-    seed: project.id,
-    radius: 50,
-    size: 25,
-  }).toDataUriSync();
-
   const mainLinks: Array<SideLink> = [
     {
       label: "Board",
@@ -45,14 +36,8 @@ export default function SideBar({ project }: SideBarProps) {
   return (
     <aside className="flex h-full flex-col justify-between px-4 py-6">
       <div className="flex flex-col gap-1">
-        <div className="flex gap-2">
-          <Image
-            width={0}
-            height={0}
-            className="w-auto"
-            src={projectAvatar}
-            alt={`@project-${project.id} avatar`}
-          />
+        <div className="flex items-center gap-2">
+          <ProjectAvatar project={project} />
           <div>
             <h1 className="text-sm font-semibold">{`${project.name}`}</h1>
             <p className="text-xs">Software Project</p>
