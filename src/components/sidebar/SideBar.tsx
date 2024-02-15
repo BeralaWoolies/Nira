@@ -1,18 +1,17 @@
 import { ProjectsResponse } from "@/types/pocketbase-types";
+import { thumbs } from "@dicebear/collection";
+import { createAvatar } from "@dicebear/core";
 import React from "react";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { GearIcon, LayoutIcon } from "@radix-ui/react-icons";
+import SideBarLink, { SideLink } from "@/components/sidebar/SidebarLink";
+import { Separator } from "@/components/ui/separator";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Image from "next/image";
-import { createAvatar } from "@dicebear/core";
-import { thumbs } from "@dicebear/collection";
 
 interface SideBarProps {
   project: ProjectsResponse;
@@ -26,6 +25,22 @@ export default function SideBar({ project }: SideBarProps) {
     radius: 50,
     size: 25,
   }).toDataUriSync();
+
+  const mainLinks: Array<SideLink> = [
+    {
+      label: "Board",
+      href: `/projects/${project.id}/boards/${project.board}`,
+      icon: <LayoutIcon className="mr-2 h-5 w-5" />,
+    },
+  ];
+
+  const footerLinks: Array<SideLink> = [
+    {
+      label: "Project settings",
+      href: `/projects/${project.id}/settings`,
+      icon: <GearIcon className="mr-2 h-5 w-5" />,
+    },
+  ];
 
   return (
     <aside className="flex h-full flex-col justify-between px-4 py-6">
@@ -47,24 +62,18 @@ export default function SideBar({ project }: SideBarProps) {
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger>Planning</AccordionTrigger>
             <AccordionContent>
-              <Link href="/projects" scroll={false}>
-                <Button variant="secondary" className="w-full justify-start p-2">
-                  <LayoutIcon className="mr-1 h-5 w-5" />
-                  Board
-                </Button>
-              </Link>
+              {mainLinks.map((link, index) => (
+                <SideBarLink key={index} link={link} />
+              ))}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
       <div className="flex flex-col gap-2">
         <Separator />
-        <Link href="/projects" scroll={false}>
-          <Button variant="ghost" className="w-full justify-start p-2">
-            <GearIcon className="mr-1 h-5 w-5" />
-            Project Settings
-          </Button>
-        </Link>
+        {footerLinks.map((link, index) => (
+          <SideBarLink key={index} link={link} />
+        ))}
       </div>
     </aside>
   );
