@@ -15,17 +15,17 @@ export function createBrowserClient() {
 
   if (_singletonClient === null) {
     _singletonClient = createNewClient();
+
+    _singletonClient.authStore.onChange(() => {
+      document.cookie = _singletonClient!.authStore.exportToCookie({
+        httpOnly: false,
+      });
+    });
   }
 
   if (typeof window === "undefined") {
     throw new Error("This method is only supposed to call from the Browser environment");
   }
-
-  _singletonClient.authStore.onChange(() => {
-    document.cookie = _singletonClient!.authStore.exportToCookie({
-      httpOnly: false,
-    });
-  });
 
   return _singletonClient;
 }
