@@ -7,8 +7,7 @@ import { Column } from "@/types/column-types";
 import { Issue } from "@/types/issue-types";
 import { AuthSystemFields, Collections } from "@/types/pocketbase-types";
 import { StatusResponse } from "@/types/status-types";
-import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 export async function updateColumnsOrder(
   boardId: string,
@@ -22,7 +21,6 @@ export async function updateColumnsOrder(
       columns: reorderedColumnIds,
     });
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: "Reordered columns successfully",
     };
@@ -42,7 +40,6 @@ export async function updateIssuesOrder(column: Column): Promise<StatusResponse>
       issues: reorderedIssueIds,
     });
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Reordered issues successfully in "${column.title}"`,
     };
@@ -71,7 +68,6 @@ export async function updateIssuesOrderBetween(
       },
     });
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully moved issue to "${destColumn.title}"`,
     };
@@ -95,7 +91,6 @@ export async function createIssue(columnId: string, values: TIssueForm): Promise
       },
     });
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully created new issue "${values.title}"`,
     };
@@ -117,7 +112,6 @@ export async function createColumn(boardId: string, values: TColumnForm): Promis
       },
     });
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully created new column "${values.title}"`,
     };
@@ -133,7 +127,6 @@ export async function deleteIssue(issue: Issue): Promise<StatusResponse> {
     const pb = createServerClient(cookies());
     await pb.collection(Collections.Issues).delete(issue.id);
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully deleted issue "${issue.title}"`,
     };
@@ -149,7 +142,6 @@ export async function updateIssue(issue: Issue, values: TIssueForm) {
     const pb = createServerClient(cookies());
     const updatedIssue = await pb.collection(Collections.Issues).update(issue.id, values);
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully edited issue "${updatedIssue.title}"`,
     };
@@ -165,7 +157,6 @@ export async function updateColumn(column: Column, values: TColumnForm) {
     const pb = createServerClient(cookies());
     const updatedColumn = await pb.collection(Collections.Columns).update(column.id, values);
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully edited column "${updatedColumn.title}"`,
     };
@@ -181,7 +172,6 @@ export async function deleteColumn(column: Column) {
     const pb = createServerClient(cookies());
     await pb.collection(Collections.Columns).delete(column.id);
 
-    revalidatePath(headers().get("referer") || "");
     return {
       success: `Successfully deleted column "${column.title}"`,
     };

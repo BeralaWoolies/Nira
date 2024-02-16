@@ -9,7 +9,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import IssueComboboxForm from "@/components/kanban-board/issue/issue-dialog/IssueComboboxForm";
 
 export const issuePriorities: Array<{
-  value: IssuePriority;
+  value: IssuePriority | "";
   label: string;
   icon: React.JSX.Element;
 }> = [
@@ -46,9 +46,7 @@ interface IssuePriorityComboboxProps {
 
 export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  const [currentPriority, setCurrentPriority] = React.useState<IssuePriority | "">(issue.priority);
-
-  const issuePriority = issuePriorities.find((p) => p.value === currentPriority);
+  const issuePriority = issuePriorities.find((p) => p.value === issue.priority);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -59,10 +57,10 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
           aria-expanded={popoverOpen}
           className={cn(
             "justify-start gap-1 rounded-sm p-1 font-normal",
-            currentPriority ? "w-[5.5rem]" : "w-fit"
+            issue.priority ? "w-[5.5rem]" : "w-fit"
           )}
         >
-          {currentPriority ? (
+          {issue.priority ? (
             <>
               {issuePriority?.icon}
               {issuePriority?.label}
@@ -77,14 +75,13 @@ export function IssuePriorityCombobox({ issue }: IssuePriorityComboboxProps) {
           issue={issue}
           formOptions={{
             items: issuePriorities,
-            currentItemValue: currentPriority,
+            currentItemValue: issue.priority,
             name: "priority",
             defaultValues: {
               priority: issue.priority,
             },
             onUpdate: (newPriority) => {
-              newPriority = newPriority === currentPriority ? "" : newPriority;
-              setCurrentPriority(newPriority);
+              newPriority = newPriority === issue.priority ? "" : newPriority;
               setPopoverOpen(false);
               return newPriority;
             },

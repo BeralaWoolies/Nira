@@ -2,6 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Column } from "@/types/column-types";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import React, { useState } from "react";
+import toastStatusResponse from "@/utils/toast-responses";
+import { deleteColumn } from "@/actions/kanban-board";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +20,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
-import toastStatusResponse from "@/utils/toast-responses";
-import { deleteColumn } from "@/actions/kanban-board";
 
 interface ColumnContextMenuProps {
   column: Column;
@@ -53,7 +53,10 @@ export default function ColumnContextMenu({ column }: ColumnContextMenuProps) {
         </DialogHeader>
         <Button
           variant="destructive"
-          onClick={async () => toastStatusResponse(await deleteColumn(column))}
+          onClick={async () => {
+            setDialogOpen(false);
+            toastStatusResponse(await deleteColumn(column));
+          }}
         >
           Delete
         </Button>

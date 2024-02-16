@@ -1,7 +1,7 @@
 "use client";
 
 import { Column } from "@/types/column-types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ColumnCard from "@/components/kanban-board/column/ColumnCard";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { produce } from "immer";
@@ -13,25 +13,15 @@ import {
 } from "@/actions/kanban-board";
 import toastStatusResponse from "@/utils/toast-responses";
 import { UsersResponse } from "@/types/pocketbase-types";
-import { useHydrateAtoms } from "jotai/react/utils";
-import { membersAtom } from "@/store/atoms";
+import useKanbanBoard from "@/hooks/useKanbanBoard";
 
 interface KanbanBoardProps {
-  data: Column[];
   boardId: string;
+  data: Column[];
   members: UsersResponse[];
 }
-
-export default function KanbanBoard({ data, boardId, members }: KanbanBoardProps) {
-  useHydrateAtoms([[membersAtom, members]], { dangerouslyForceHydrate: true });
-  console.log("KanbanBoard rendered");
-
-  const [columns, setColumns] = useState(data);
-  console.table(columns);
-
-  useEffect(() => {
-    setColumns(data);
-  }, [data]);
+export default function KanbanBoard({ boardId, data, members }: KanbanBoardProps) {
+  const [columns, setColumns] = useKanbanBoard(boardId, data, members);
 
   function handleDragEnd(result: DropResult) {
     const { source, destination, type } = result;

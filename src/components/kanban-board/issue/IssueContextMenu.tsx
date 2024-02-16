@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import toastStatusResponse from "@/utils/toast-responses";
+import { deleteIssue } from "@/actions/kanban-board";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Issue } from "@/types/issue-types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +20,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import toastStatusResponse from "@/utils/toast-responses";
-import { deleteIssue } from "@/actions/kanban-board";
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { Issue } from "@/types/issue-types";
 
 interface IssueContextMenuProps {
   issue: Issue;
@@ -51,7 +51,10 @@ export default function IssueContextMenu({ issue, openEditingMode }: IssueContex
         </DialogHeader>
         <Button
           variant="destructive"
-          onClick={async () => toastStatusResponse(await deleteIssue(issue))}
+          onClick={async () => {
+            setDialogOpen(false);
+            toastStatusResponse(await deleteIssue(issue));
+          }}
         >
           Delete
         </Button>

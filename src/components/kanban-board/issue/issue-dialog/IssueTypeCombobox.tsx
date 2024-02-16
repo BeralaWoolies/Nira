@@ -38,9 +38,7 @@ interface IssuePriorityComboboxProps {
 
 export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  const [currentIssueType, setCurrentIssueType] = React.useState<IssueType>(issue.type);
-
-  const issueType = issueTypes.find((issueType) => issueType.value === currentIssueType);
+  const issueType = issueTypes.find((issueType) => issueType.value === issue.type);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -51,7 +49,7 @@ export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
           aria-expanded={popoverOpen}
           className={cn("w-fit justify-start gap-1 rounded-sm p-2 font-normal")}
         >
-          {currentIssueType ? (
+          {issue.type ? (
             <>
               {issueType?.icon}
               <p className="text-sm">{`${issueType?.label}-${issue.id}`}</p>
@@ -66,13 +64,12 @@ export function IssueTypeCombobox({ issue }: IssuePriorityComboboxProps) {
           issue={issue}
           formOptions={{
             items: issueTypes,
-            currentItemValue: currentIssueType,
+            currentItemValue: issue.type,
             name: "type",
             defaultValues: {
               type: issue.type,
             },
             onUpdate: (newIssueType) => {
-              setCurrentIssueType(newIssueType);
               setPopoverOpen(false);
               return newIssueType;
             },

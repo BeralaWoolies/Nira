@@ -13,7 +13,6 @@ interface IssueReporterComboboxProps {
 
 export default function IssueReporterCombobox({ issue, items }: IssueReporterComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  const [currentReporter, setCurrentReporter] = React.useState(issue.reporter);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -24,7 +23,7 @@ export default function IssueReporterCombobox({ issue, items }: IssueReporterCom
           aria-expanded={popoverOpen}
           className={cn("w-fit max-w-[11rem] justify-start gap-2 rounded-sm p-2 font-normal")}
         >
-          {currentReporter ? (
+          {issue.reporter ? (
             <>
               <UserAvatar user={issue.expand!.reporter} className="h-7 w-7 hover:ring-0" />
               <p className="truncate text-sm">{issue.expand!.reporter.username}</p>
@@ -39,13 +38,12 @@ export default function IssueReporterCombobox({ issue, items }: IssueReporterCom
           issue={issue}
           formOptions={{
             items: items,
-            currentItemValue: currentReporter,
+            currentItemValue: issue.reporter,
             name: "reporter",
             defaultValues: {
               reporter: issue.reporter,
             },
             onUpdate: (newReporter) => {
-              setCurrentReporter(newReporter);
               setPopoverOpen(false);
               return newReporter;
             },

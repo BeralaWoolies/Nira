@@ -12,9 +12,7 @@ interface IssueAssigneeComboboxProps {
 
 export default function IssueAssigneeCombobox({ issue, items }: IssueAssigneeComboboxProps) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  const [currentAssignee, setCurrentAssignee] = React.useState(issue.assignee);
-
-  const assignee = items.find((assignee) => assignee.value === currentAssignee);
+  const assignee = items.find((assignee) => assignee.value === issue.assignee);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -25,7 +23,7 @@ export default function IssueAssigneeCombobox({ issue, items }: IssueAssigneeCom
           aria-expanded={popoverOpen}
           className={cn("w-fit max-w-[11rem] justify-start gap-2 rounded-sm p-2 font-normal")}
         >
-          {currentAssignee ? (
+          {issue.assignee ? (
             <>
               {assignee?.icon}
               <p className="truncate text-sm">{assignee?.label}</p>
@@ -40,14 +38,13 @@ export default function IssueAssigneeCombobox({ issue, items }: IssueAssigneeCom
           issue={issue}
           formOptions={{
             items: items,
-            currentItemValue: currentAssignee,
+            currentItemValue: issue.assignee,
             name: "assignee",
             defaultValues: {
               assignee: issue.assignee,
             },
             onUpdate: (newAssignee) => {
-              newAssignee = newAssignee === currentAssignee ? "" : newAssignee;
-              setCurrentAssignee(newAssignee);
+              newAssignee = newAssignee === issue.assignee ? "" : newAssignee;
               setPopoverOpen(false);
               return newAssignee;
             },
