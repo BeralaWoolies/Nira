@@ -12,7 +12,7 @@ interface IssueTitleProps {
   issue: Issue;
 }
 
-export default function IssueCardTitle({ issue }: IssueTitleProps) {
+const IssueTitle = React.memo(function IssueCardTitle({ issue }: IssueTitleProps) {
   const [editingMode, setEditingMode] = useState(false);
 
   if (!editingMode) {
@@ -37,4 +37,6 @@ export default function IssueCardTitle({ issue }: IssueTitleProps) {
       </EditIssueTitleForm>
     </PropagationWrapper>
   );
-}
+});
+
+export default IssueTitle;
