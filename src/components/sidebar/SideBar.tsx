@@ -16,7 +16,6 @@ interface SideBarProps {
 }
 
 export default function SideBar({ project }: SideBarProps) {
-  console.log("SideBar rendered");
   const mainLinks: Array<SideLink> = [
     {
       label: "Board",

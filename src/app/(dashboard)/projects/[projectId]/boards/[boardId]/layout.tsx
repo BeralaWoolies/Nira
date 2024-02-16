@@ -13,8 +13,6 @@ interface BoardsLayoutProps {
 }
 
 export default async function BoardsLayout({ children, params }: BoardsLayoutProps) {
-  console.log("Boards Layout rendered");
-
   const pb = createServerClient(cookies());
   const board = await pb.collection(Collections.Boards).getOne<
     BoardsResponse<{

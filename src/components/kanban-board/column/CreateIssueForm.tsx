@@ -19,7 +19,6 @@ interface CreateIssueFormProps {
 }
 
 const CreateIssueForm = React.memo(function CreateIssueForm({ columnId }: CreateIssueFormProps) {
-  console.log("Rendered form", columnId);
   const [editingMode, setEditingMode] = useState(false);
   const [ref, onKeyDown] = useSubmitOnKey();
   const onCardVisible = useScrollIntoView();

@@ -15,7 +15,6 @@ interface ColumnProps {
 
 const ColumnCard = React.memo(
   function ColumnCard({ column, index }: ColumnProps) {
-    console.log(`${column.title} rendered`);
     return (
       <Draggable key={column.id} draggableId={column.id.toString()} index={index}>
         {(draggableProvided) => (

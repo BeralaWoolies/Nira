@@ -19,7 +19,6 @@ interface IssueCardProps {
 
 const IssueCard = React.memo(
   function IssueCard({ issue, index }: IssueCardProps) {
-    console.log(`${issue.title} rendered`);
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const issueType = issueTypes.find((issueType) => issueType.value === issue.type);

@@ -17,8 +17,6 @@ interface BoardsPageProps {
 }
 
 export default async function BoardsPage({ params }: BoardsPageProps) {
-  console.log("Boards Page rendered");
-
   const pb = createServerClient(cookies());
   const data = await pb.collection(Collections.Boards).getOne<
     BoardsResponse<{

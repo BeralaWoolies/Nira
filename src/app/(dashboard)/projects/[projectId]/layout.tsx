@@ -10,8 +10,7 @@ interface WorkspaceLayoutProps {
 }
 
 export default async function WorkspaceLayout({ children, params }: WorkspaceLayoutProps) {
-  console.log("WorkspaceLayout rendered");
-
   const project = await fetchProject(params.projectId);
+
   return <WorkspaceView sideView={<SideBar project={project} />}>{children}</WorkspaceView>;
 }

@@ -13,8 +13,6 @@ interface WorkspaceViewProps {
 }
 
 export default function WorkspaceView({ sideView, children: mainView }: WorkspaceViewProps) {
-  console.log("WorkspaceView rendered");
-
   const [pinned, setPinned] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [dragging, setDragging] = useState(false);

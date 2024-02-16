@@ -19,8 +19,6 @@ interface CreateColumnForm {
 }
 
 const CreateColumnForm = React.memo(function CreateColumnForm({ boardId }: CreateColumnForm) {
-  console.log("Column form rendered");
-
   const [editingMode, setEditingMode] = useState(false);
   const onColumnVisible = useScrollIntoView();
 
