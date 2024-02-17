@@ -82,13 +82,10 @@ export async function createIssue(columnId: string, values: TIssueForm): Promise
   try {
     const pb = createServerClient(cookies());
     const reporter = pb.authStore.model as AuthSystemFields;
-    await pb.send("/api/nira/issue", {
-      method: "POST",
-      body: {
-        columnId: columnId,
-        title: values.title,
-        reporterId: reporter.id,
-      },
+    await pb.collection(Collections.Issues).create({
+      title: values.title,
+      column: columnId,
+      reporter: reporter.id,
     });
 
     return {

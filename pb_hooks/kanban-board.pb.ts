@@ -39,41 +39,6 @@ routerAdd("PUT", "/api/nira/update/issues-between", (c) => {
   });
 });
 
-routerAdd("POST", "/api/nira/issue", (c) => {
-  const data = new DynamicModel({
-    columnId: "",
-    title: "",
-    reporterId: "",
-  });
-  c.bind(data);
-
-  const issuesCollection = $app.dao().findCollectionByNameOrId("issues");
-
-  try {
-    $app.dao().runInTransaction((txDao) => {
-      const issueRecord = new Record(issuesCollection, {
-        title: data.title,
-        column: data.columnId,
-        reporter: data.reporterId,
-      });
-      txDao.saveRecord(issueRecord);
-
-      const columnRecord = txDao.findRecordById("columns", data.columnId);
-      columnRecord.set(
-        "issues",
-        columnRecord.getStringSlice("issues").concat([issueRecord.getId()])
-      );
-      txDao.saveRecord(columnRecord);
-    });
-  } catch (error) {
-    throw new ApiError(500, `Could not create issue in column: ${data.columnId}`);
-  }
-
-  return c.json(200, {
-    success: `Successfully created issue in column: ${data.columnId}`,
-  });
-});
-
 routerAdd("POST", "/api/nira/column", (c) => {
   const data = new DynamicModel({
     boardId: "",
@@ -106,3 +71,26 @@ routerAdd("POST", "/api/nira/column", (c) => {
     success: `Successfully created column in board: ${data.boardId}`,
   });
 });
+
+onRecordBeforeCreateRequest((e) => {
+  if (!e.record) {
+    throw new ApiError(500, "issue could not be created");
+  }
+
+  const issueRecord = e.record;
+
+  try {
+    $app.dao().runInTransaction((txDao) => {
+      txDao.saveRecord(issueRecord);
+
+      const columnRecord = txDao.findRecordById("columns", issueRecord.getString("column"));
+      columnRecord.set(
+        "issues",
+        columnRecord.getStringSlice("issues").concat([issueRecord.getId()])
+      );
+      txDao.saveRecord(columnRecord);
+    });
+  } catch (error) {
+    throw new ApiError(500, `Could not create issue in column: ${data.columnId}`);
+  }
+}, "issues");
