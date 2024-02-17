@@ -101,12 +101,9 @@ export async function createIssue(columnId: string, values: TIssueForm): Promise
 export async function createColumn(boardId: string, values: TColumnForm): Promise<StatusResponse> {
   try {
     const pb = createServerClient(cookies());
-    await pb.send("/api/nira/column", {
-      method: "POST",
-      body: {
-        boardId: boardId,
-        title: values.title,
-      },
+    await pb.collection(Collections.Columns).create({
+      board: boardId,
+      title: values.title,
     });
 
     return {
