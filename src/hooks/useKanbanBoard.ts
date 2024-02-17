@@ -24,9 +24,9 @@ export default function useKanbanBoard(boardId: string, data: Column[], members:
   }, [data, members, setMembers]);
 
   useEffect(() => {
-    const debounceRefresh = debounce(() => {
-      router.refresh();
-    }, 1000);
+    const debounceRefresh = debounce(router.refresh, 100, {
+      immediate: true,
+    });
 
     const pb = createBrowserClient();
     pb.collection(Collections.Boards).subscribe(boardId, () => {
